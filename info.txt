@@ -1,0 +1,216 @@
+######################################################
+######################################################
+######################################################
+
+
+
+
+
+
+
+
+
+
+######################################################
+
+######################################################
+
+######################################################
+
+######################################################
+
+######################################################
+
+
+
+######################################################
+######################################################
+
+# Main Menu
+
+Ongoing
+Completed
+Anime List
+A-Z
+Genres
+
+
+Sort by Alphabet
+Sort by Popularity
+Sort by Latest Update
+Sort by Newest
+
+
+
+
+
+
+
+
+
+
+=======================================================================================
+=======================================================================================
+=======================================================================================
+* http://kissanime.com/
+http://kissanime.com/Content/images/numbers/1.png
+1-3 orange
+http://kissanime.com/Content/images/numbers/4.png
+http://kissanime.com/Content/images/numbers/10.png
+4-10 blue
+?page=2
+page 2 = 2
+page 1 = 1
+shows first, prev, next, last
+<ul class="pager" style="padding: 10px 11px 10px 0px">
+
+<li><a href="/AnimeList/Newest?page=1" page="1">&laquo;  First</a></li>
+<li><a href="/AnimeList/Newest?page=43" page=43>&lsaquo;  Prev</a></li>
+<li><a href="/AnimeList/Newest?page=42" page="42">42</a></li>
+<li><a href="/AnimeList/Newest?page=43" page="43">43</a></li>
+<li class="current">44</li>
+
+<li class="current">1</li>
+<li><a href="/AnimeList/Newest?page=2" page="2">2</a></li>
+<li><a href="/AnimeList/Newest?page=3" page="3">3</a></li>
+<li><a href="/AnimeList/Newest?page=2" page=2>&rsaquo; Next </a></li>
+<li><a href="/AnimeList/Newest?page=44" page="44">&raquo; Last </a></li>
+
+</ul>
+
+#background texture
+http://kissanime.com/Content/images/tpl_bg.gif
+#transparent png - logo banner
+http://kissanime.com/Content/images/logo.png
+
+
+** Latest Comments (text) [More...]
+** Latest Update (text) [More...]
+** Latest Update (with image)
+** New Anime [More...]
+** Most Popular [More...]
+** Ongoing Series (text)
+** Anime List
+#Sort by alphabet
+http://kissanime.com/AnimeList
+#Sort by popularity
+http://kissanime.com/AnimeList/MostPopular
+#Latest update
+http://kissanime.com/AnimeList/LatestUpdate
+#Sort by New anime
+http://kissanime.com/AnimeList/Newest
+
+#Just updated
+http://kissanime.com/Content/images/newupdate.png
+#Popular anime
+http://kissanime.com/Content/images/hot.png
+
+#=All
+http://kissanime.com/AnimeList
+#=#
+http://kissanime.com/AnimeList?c=0
+#=A
+http://kissanime.com/AnimeList?c=a
+#=Z
+http://kissanime.com/AnimeList?c=z
+
+http://kissanime.com/AnimeList/MostPopular?c=0
+http://kissanime.com/AnimeList/MostPopular?c=a
+http://kissanime.com/AnimeList/MostPopular?c=z
+
+http://kissanime.com/AnimeList/LatestUpdate?c=0
+http://kissanime.com/AnimeList/LatestUpdate?c=a
+http://kissanime.com/AnimeList/LatestUpdate?c=z
+
+http://kissanime.com/Status/Ongoing
+http://kissanime.com/Status/Completed
+
+http://kissanime.com/Status/Ongoing?c=0
+http://kissanime.com/Status/Ongoing?c=a
+http://kissanime.com/Status/Ongoing?c=z
+
+http://kissanime.com/Status/Completed?c=0
+http://kissanime.com/Status/Completed?c=a
+http://kissanime.com/Status/Completed?c=z
+
+http://kissanime.com/Genre/Action
+http://kissanime.com/Genre/Martial-Arts
+http://kissanime.com/Genre/Slice-of-Life
+
+['Action','Adventure','Cars','Cartoon','Comedy','Dementia','Demons','Drama','Ecchi','Fantasy','Game','Harem','Historical','Horror','Josei','Kids','Magic','Martial Arts','Mecha','Military','Movie','Music','Mystery','ONA','OVA','Parody','Police','Psychological','Romance','Samurai','School','Sci-Fi','Seinen','Shoujo','Shoujo Ai','Shounen','Shounen Ai','Slice of Life','Space','Special','Sports','Super Power','Supernatural','Thriller','Vampire','Yuri']
+
+youtube.com and redirector.googelvideo.com
+
+
+
+http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=18&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380909147&sparams=id,itag,source,ip,ipbits,expire&signature=5F7431165F845827D1021864C6F05ED42412047D.47DEC42E6AE63018A654A82DFCA4B728F2EDB58F&key=lh1
+
+
+<div id="divContentVideo" style="width: 820px; height: 530px" itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
+<meta itemprop="name" content="Sakasama no Patema: Beginning of the Day Episode 001"/>
+<meta itemprop="description" content="Watch Sakasama no Patema: Beginning of the Day Episode 001 online in high quality"/>
+<meta itemprop="thumbnailUrl" content="http://kissanime.com/Uploads/Etc/9-4-2013/2216905452452562.jpg"/>
+<meta itemprop="contentURL" content="http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=34&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380909147&sparams=id,itag,source,ip,ipbits,expire&signature=9B19C53816274CF0F0742DCCED45AB35931B5A94.CE68A3835B898390266A9424619133E3B64CF02F&key=lh1&title=Episode+001"/>
+<meta itemprop="uploadDate" content="2013-9-4"/>
+<embed id="embedVideo" height="530" src="http://www.youtube.com/get_player?enablejsapi=1" type="application/x-shockwave-flash" width="820" allowfullscreen="true" allowscriptaccess="always" bgcolor="#fff" scale="noScale" wmode="opaque" flashvars="fmt_list=34%2F640x360%2C18%2F640x360%2C5%2F426x240&amp;fmt_stream_map=34%7Chttp%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3de1ef1df39f5a4243%26itag%3d34%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1380909147%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d9B19C53816274CF0F0742DCCED45AB35931B5A94.CE68A3835B898390266A9424619133E3B64CF02F%26key%3dlh1%2C18%7Chttp%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3de1ef1df39f5a4243%26itag%3d18%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1380909147%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d5F7431165F845827D1021864C6F05ED42412047D.47DEC42E6AE63018A654A82DFCA4B728F2EDB58F%26key%3dlh1%2C5%7Chttp%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3de1ef1df39f5a4243%26itag%3d5%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1380909147%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d3D7DEB722C22C3894B612565FBE2BDC0A2DBA3CB.5CC4645828CE8B9BCD8274EDA95C14E27D18886%26key%3dlh1&amp;video_id=picasacid&amp;fs=1&amp;hl=en&amp;autoplay=1&amp;ps=picasaweb&amp;playerapiid=uniquePlayerId&amp;t=1&amp;vq=large&amp;auth_timeout=86400000000" style="width: 820px; height: 530px; display:none"/>
+</div>
+</div>
+<div style="font-size: 14px; font-weight: bold; padding-top: 35px">
+Change quality by clicking on
+<img src="http://kissanime.com/Uploads/Etc/3-20-2013/4192881Untitled-1.png" style="vertical-align: middle"/>
+icon (lower quality = faster loading)
+</div>
+<div style="font-size: 14px; font-weight: bold; padding-top: 15px" id="divDownload">
+Download (Save as...): <a href="http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=34&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380909147&sparams=id,itag,source,ip,ipbits,expire&signature=9B19C53816274CF0F0742DCCED45AB35931B5A94.CE68A3835B898390266A9424619133E3B64CF02F&key=lh1">640x360.flv</a> - <a href="http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=18&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380909147&sparams=id,itag,source,ip,ipbits,expire&signature=5F7431165F845827D1021864C6F05ED42412047D.47DEC42E6AE63018A654A82DFCA4B728F2EDB58F&key=lh1">640x360.mp4</a> - <a href="http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=5&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380909147&sparams=id,itag,source,ip,ipbits,expire&signature=3D7DEB722C22C3894B612565FBE2BDC0A2DBA3CB.5CC4645828CE8B9BCD8274EDA95C14E27D18886&key=lh1">426x240.flv</a></div>
+<div style="padding-top: 5px">
+<b>Filename:</b>
+[COOL]_Sakasama_no_Patema_-_Beginning_of_the_Day_-_01_[360p][AC33315C]
+</div>
+
+
+
+http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=18&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380909841&sparams=id,itag,source,ip,ipbits,expire&signature=1F27DC0E1064C9C285D6B4CD9431C01F935F2BE8.7B6AB02236456653FDE616B5CAD3BC6BFB2A7A3C&key=lh1
+
+
+http://kissanime.com/Content/images/previous.png
+http://kissanime.com/Content/images/next.png
+
+
+
+
+<a href="http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=34&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380909147&sparams=id,itag,source,ip,ipbits,expire&signature=9B19C53816274CF0F0742DCCED45AB35931B5A94.CE68A3835B898390266A9424619133E3B64CF02F&key=lh1">640x360.flv</a> - 
+<a href="http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=18&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380909147&sparams=id,itag,source,ip,ipbits,expire&signature=5F7431165F845827D1021864C6F05ED42412047D.47DEC42E6AE63018A654A82DFCA4B728F2EDB58F&key=lh1">640x360.mp4</a> - 
+<a href="http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=5&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380909147&sparams=id,itag,source,ip,ipbits,expire&signature=3D7DEB722C22C3894B612565FBE2BDC0A2DBA3CB.5CC4645828CE8B9BCD8274EDA95C14E27D18886&key=lh1">426x240.flv</a></div>
+
+
+
+
+#playable url
+<meta itemprop="contentURL" content="http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=34&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380930282&sparams=id,itag,source,ip,ipbits,expire&signature=4C27B302D7CB548319851DBF41704C0AD0F64150.688E2705BE567EDA37600C708A57A66596B4048C&key=lh1&title=Episode+001"/>
+http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=34&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380930282&sparams=id,itag,source,ip,ipbits,expire&signature=4C27B302D7CB548319851DBF41704C0AD0F64150.688E2705BE567EDA37600C708A57A66596B4048C&key=lh1&title=Episode+001
+
+
+
+
+
+
+http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=34&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380931201&sparams=id,itag,source,ip,ipbits,expire&signature=53C703722648F1F0C0563A1C24F875BB874F0928.8574B369D2C68FA297607B607872A51CBE8F1005&key=lh1&title=Episode+001
+http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=18&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380931201&sparams=id,itag,source,ip,ipbits,expire&signature=965D6E29875C4E04D9D968ED9D818C6D86F265FE.B9C3345619129CAD1BC7DC95E0C5278782F30190&key=lh1&title=Episode+001
+http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=5&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380931201&sparams=id,itag,source,ip,ipbits,expire&signature=BF28C12F8A2FD664F7025CD1E67F04C3100B9BAC.D322B793656797A33B0C089FFAF77AA1554240AA&key=lh1&title=Episode+001
+
+http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=34&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380931201&sparams=id,itag,source,ip,ipbits,expire&signature=53C703722648F1F0C0563A1C24F875BB874F0928.8574B369D2C68FA297607B607872A51CBE8F1005&key=lh1&title=Episode+001
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
