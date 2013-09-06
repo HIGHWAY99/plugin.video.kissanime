@@ -1033,16 +1033,16 @@ def Menu_BrowseByAZ(section=_default_section_,url='http://kissanime.com/AnimeLis
 	set_view('list',addst('default-view')); eod()
 
 def Select_Genre(url=''):
-	if (url==''): url=_domain_url+'/'+ps('common_word2')+'List'
+	if (url==''): url=_domain_url+'/'+ps('common_word')+'List'
 	WhereAmI('@ the Select Genre Menu'); option_list=GENRES; r=askSelection(option_list,'Select Genre')
 	#if   (r==0): Select_Sort(url+option_list[r].lower(),AZ='')
 	if (r== -1): eod(); return
 	else: Select_Sort(url+'/Genre/'+option_list[r].replace(' ','-'),AZ='')
 
 def Select_Sort(url='',AZ='all'):
-	if (url==''): url=_domain_url+'/'+ps('common_word2')+'List'
+	if (url==''): url=_domain_url+'/'+ps('common_word')+'List'
 	WhereAmI('@ the Select Sort Menu'); AZ=AZ.lower();
-	option_list=['Alphabetical','Most Popular','Latest Update','New '+ps('common_word2')]
+	option_list=['Alphabetical','Most Popular','Latest Update','New '+ps('common_word')]
 	path_list  =['','/MostPopular','/LatestUpdate','/Newest']
 	if (AZ=='') or (AZ=='all'): AZTag=''
 	elif ('?' in url): AZTag='&c='+AZ
@@ -1053,7 +1053,7 @@ def Select_Sort(url='',AZ='all'):
 	else: _DoGetItems(url+path_list[r]+AZTag)
 
 def Select_AZ(url=''):
-	if (url==''): url=_domain_url+'/'+ps('common_word2')+'List'
+	if (url==''): url=_domain_url+'/'+ps('common_word')+'List'
 	option_list=['All','0','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 	WhereAmI('@ the Select AZ Menu'); r=askSelection(option_list,'Select A-Z, 0(#0-9) or All')
 	if   (r==0): Select_Sort(url,AZ=option_list[r].lower()) #Select_Sort(url,AZ='')
