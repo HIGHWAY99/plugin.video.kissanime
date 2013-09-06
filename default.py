@@ -2,7 +2,7 @@
 ###	#	
 ### # Project: 			#		KissAnime.com - by The Highway 2013.
 ### # Author: 			#		The Highway
-### # Version:			#		v0.2.8
+### # Version:			#		v0.2.9
 ### # Description: 	#		http://www.KissAnime.com
 ###	#	
 ### ############################################################################################################
@@ -1744,7 +1744,9 @@ def fav__list(section,subfav=''):
 				contextMenuItems=[]; labs2={}; labs2['fanart']=''
 				labs2['title']=cFL(name,ps('cFL_color3'))
 				#labs2['title']=cFL(name+'  ('+cFL(year,ps('cFL_color2'))+')',ps('cFL_color')); 
-				labs2['image']=img; labs2['fanart']=fanart; labs2['ShowTitle']=name; labs2['year']=year; pars2={'mode': 'GetLinks', 'section': section, 'url': url, 'img': img, 'image': img, 'fanart': fanart, 'title': name, 'year': year }; labs2['plot']=plot
+				labs2['image']=img; labs2['fanart']=fanart; labs2['ShowTitle']=name; labs2['year']=year; labs2['plot']=plot
+				#pars2={'mode': 'GetLinks', 'section': section, 'url': url, 'img': img, 'image': img, 'fanart': fanart, 'title': name, 'year': year }; 
+				pars2={'mode': 'GetEpisodes', 'section': section, 'url': url, 'img': img, 'image': img, 'fanart': fanart, 'title': name, 'year': year }; 
 				##labs2['title']=cFL(name+'  ('+cFL(year,ps('cFL_color2'))+')  ['+cFL(country,ps('cFL_color3'))+']',ps('cFL_color'))
 				##labs2[u'overlay']=xbmcgui.ICON_OVERLAY_WATCHED
 				##labs2['overlay']=xbmcgui.ICON_OVERLAY_WATCHED
@@ -1828,6 +1830,7 @@ def doSearchNormal (section,title=''):
 	if (title==''):
 		title=showkeyboard(txtMessage=title,txtHeader="Title:  ("+section+")")
 		if (title=='') or (title=='none') or (title==None) or (title==False): return
+	title=title.replace(' ','+')
 	_param['url']=SearchPrefix % title; deb('Searching for',_param['url']); listItems(section, _param['url'], _param['pageno'], addst('pages'), _param['genre'], _param['year'], _param['title'])
 
 def doSearchAdvanced (section,title=''):
