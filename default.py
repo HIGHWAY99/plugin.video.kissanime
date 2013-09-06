@@ -2,7 +2,7 @@
 ###	#	
 ### # Project: 			#		KissAnime.com - by The Highway 2013.
 ### # Author: 			#		The Highway
-### # Version:			#		v0.2.9
+### # Version:			#		v0.3.0
 ### # Description: 	#		http://www.KissAnime.com
 ###	#	
 ### ############################################################################################################
@@ -996,7 +996,6 @@ def Library_SaveTo_TV(section,url,img,name,year,country,season_number,episode_nu
 		#if (season==season_number) or (season==''): _addon.add_directory({'mode': 'GetLinks', 'year': _param['year'], 'section': section, 'img': img, 'url': ep_url, 'season': season_number, 'episode': episode_number, 'episodetitle': episode_name}, labs, img=labs['thumbnail'], fanart=labs['fanart'], contextmenu_items=contextMenuItems)
 	set_view('episodes',ps('setview.episodes')); eod()
 
-
 def Menu_BrowseByGenre(section=_default_section_):
 	url=''; WhereAmI('@ the Genre Menu')#print 'Browse by genres screen'
 	browsebyImg=checkImgLocal(art('genre','.jpg'))
@@ -1008,21 +1007,10 @@ def Menu_BrowseByGenre(section=_default_section_):
 		if (img==''): img=checkImgLocal(os.path.join(ps('special.home'),'addons','plugin.video.1channel','art','themes','PrimeWire',imgName+'.png'))
 		if (img==''): img=checkImgLocal(os.path.join(ps('special.home'),'addons','plugin.video.1channel','art','themes','Glossy_Black',imgName+'.png'))
 		if (img=='') and (browsebyImg is not ''): img=browsebyImg
-		#C:\Users\HIGHWAY 99\AppData\Roaming\XBMC\addons\plugin.video.1channel\art\themes\PrimeWire
-		#
-		#
-		#if (img==''): img=checkImgLocal(os.path.join('special://home/addons/','',imgName+'.jpg'))
-		#if (img==''): img=checkImgUrl(pre+imgName+'-5-icon.png')
-		#if (img==''): img=checkImgUrl(pre+imgName+'-4-icon.png')
-		#if (img==''): img=checkImgUrl(pre+imgName+'-3-icon.png')
-		#if (img==''): img=checkImgUrl(pre+imgName+'-2-icon.png')
-		#if (img==''): img=checkImgUrl(pre+imgName+'-1-icon.png')
-		#if (img==''): img=checkImgUrl(pre+imgName+'-icon.png')
-		#if (img==''): img=checkImgUrl(''+genre+'-2-icon.png')
 		if (img==''): img=_artSun
 		oo=[{'tu':'','tt':'Sort by alphabet'},{'tu':'/MostPopular','tt':'Sort by popularity'},{'tu':'/LatestUpdate','tt':'Latest update'},{'tu':'/Newest','tt':'New anime'}]
 		for o in oo:
-			url=_domain_url+'/Genre/'+(genre.replace(' ','-'))+o['tu']
+			url=_domain_url+'/Genre/'+genre.replace(' ','-')+o['tu']
 			_addon.add_directory({'mode': 'GetTitles','url': url,'genre': genre,'bygenre': genre,'pageno': '1','pagecount': addst('pages')}, {'title':  genre+'  ['+cFL(o['tt'],ps('cFL_color2'))+']'},img=img,fanart=_artFanart, total_items=ItemCount)
 	set_view('list',addst('default-view')); eod()
 
@@ -1043,6 +1031,36 @@ def Menu_BrowseByAZ(section=_default_section_,url='http://kissanime.com/AnimeLis
 			labs={'title':  genre+'  ['+cFL(o['tt'],ps('cFL_color2'))+']'}
 			_addon.add_directory(pars,labs,img=img,fanart=_artFanart,total_items=ItemCount)
 	set_view('list',addst('default-view')); eod()
+
+def Select_Genre(url=''):
+	if (url==''): url=_domain_url+'/'+ps('common_word2')+'List'
+	WhereAmI('@ the Select Genre Menu'); option_list=GENRES; r=askSelection(option_list,'Select Genre')
+	#if   (r==0): Select_Sort(url+option_list[r].lower(),AZ='')
+	if (r== -1): eod(); return
+	else: Select_Sort(url+'/Genre/'+option_list[r].replace(' ','-'),AZ='')
+
+def Select_Sort(url='',AZ='all'):
+	if (url==''): url=_domain_url+'/'+ps('common_word2')+'List'
+	WhereAmI('@ the Select Sort Menu'); AZ=AZ.lower();
+	option_list=['Alphabetical','Most Popular','Latest Update','New '+ps('common_word2')]
+	path_list  =['','/MostPopular','/LatestUpdate','/Newest']
+	if (AZ=='') or (AZ=='all'): AZTag=''
+	elif ('?' in url): AZTag='&c='+AZ
+	else: AZTag='?c='+AZ
+	r=askSelection(option_list,'Select Sort Method')
+	if   (r==0): _DoGetItems(url+path_list[r]+AZTag)
+	elif (r== -1): eod(); return
+	else: _DoGetItems(url+path_list[r]+AZTag)
+
+def Select_AZ(url=''):
+	if (url==''): url=_domain_url+'/'+ps('common_word2')+'List'
+	option_list=['All','0','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+	WhereAmI('@ the Select AZ Menu'); r=askSelection(option_list,'Select A-Z, 0(#0-9) or All')
+	if   (r==0): Select_Sort(url,AZ=option_list[r].lower()) #Select_Sort(url,AZ='')
+	elif (r== -1): eod(); return
+	else: Select_Sort(url,AZ=option_list[r].lower())
+
+def _DoGetItems(url): listItems('',url,'1',addst('pages'))
 
 ##def listItems(section=_default_section_, url='', html='', episode=False, startPage='1', numOfPages='1', genre='', year='', stitle=''): # List: Movies or TV Shows
 def listItems(section=_default_section_, url='', startPage='1', numOfPages='1', genre='', year='', stitle='', season='', episode='', html='', chck=''): # List: Movies or TV Shows
@@ -1189,6 +1207,8 @@ def listItems(section=_default_section_, url='', startPage='1', numOfPages='1', 
 			contextMenuItems.append((ps('cMI.showinfo.name'),ps('cMI.showinfo.url')))
 			contextMenuItems.append((ps('cMI.favorites.tv.add.name')+' '+addst('fav.movies.1.name'),ps('cMI.favorites.movie.add.url') % (sys.argv[0],ps('cMI.favorites.tv.add.mode'),section,urllib.quote_plus(name),'',urllib.quote_plus(img),urllib.quote_plus(img),urllib.quote_plus(''),urllib.quote_plus(labs['plot']),urllib.quote_plus(''),urllib.quote_plus(item_url), '' )))
 			contextMenuItems.append((ps('cMI.favorites.tv.add.name')+' '+addst('fav.movies.2.name'),ps('cMI.favorites.movie.add.url') % (sys.argv[0],ps('cMI.favorites.tv.add.mode'),section,urllib.quote_plus(name),'',urllib.quote_plus(img),urllib.quote_plus(img),urllib.quote_plus(''),urllib.quote_plus(labs['plot']),urllib.quote_plus(''),urllib.quote_plus(item_url),'2' )))
+			contextMenuItems.append((ps('cMI.favorites.tv.add.name')+' '+addst('fav.movies.3.name'),ps('cMI.favorites.movie.add.url') % (sys.argv[0],ps('cMI.favorites.tv.add.mode'),section,urllib.quote_plus(name),'',urllib.quote_plus(img),urllib.quote_plus(img),urllib.quote_plus(''),urllib.quote_plus(labs['plot']),urllib.quote_plus(''),urllib.quote_plus(item_url),'3' )))
+			contextMenuItems.append((ps('cMI.favorites.tv.add.name')+' '+addst('fav.movies.4.name'),ps('cMI.favorites.movie.add.url') % (sys.argv[0],ps('cMI.favorites.tv.add.mode'),section,urllib.quote_plus(name),'',urllib.quote_plus(img),urllib.quote_plus(img),urllib.quote_plus(''),urllib.quote_plus(labs['plot']),urllib.quote_plus(''),urllib.quote_plus(item_url),'4' )))
 			##if (labs['fanart'] is not ''): contextMenuItems.append(('Download Wallpaper', 'XBMC.RunPlugin(%s)' % _addon.build_plugin_url( { 'mode': 'Download' , 'section': ps('section.wallpaper') , 'studio': name+'  ('+year+')' , 'img': labs['thumbnail'] , 'url': labs['fanart'] } ) ))
 			##contextMenuItems.append(('Add - Library','XBMC.RunPlugin(%s?mode=%s&section=%s&title=%s&showtitle=%s&showyear=%s&url=%s&img=%s)' % ( sys.argv[0],'LibrarySaveMovie',section, urllib.quote_plus(name), urllib.quote_plus(name), urllib.quote_plus(year), urllib.quote_plus(_domain_url+item_url), urllib.quote_plus(thumbnail))))
 			##if os.path.exists(xbmc.translatePath(ps('special.home.addons'))+ps('cMI.1ch.search.folder')):
@@ -1658,35 +1678,34 @@ def Menu_LoadCategories(section=_default_section_): #Categories
 
 def Menu_MainMenu(): #The Main Menu
 	WhereAmI('@ the Main Menu')
-	##_addon.add_directory({'mode':'BrowseAZ','url':_domain_url+'/Status/Ongoing'},{'title':cFL_('Ongoing',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	##_addon.add_directory({'mode':'BrowseAZ','url':_domain_url+'/Status/Completed'},{'title':cFL_('Completed',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	##_addon.add_directory({'mode':'BrowseAZ','url':_domain_url+'/'+ps('common_word')+'List'},{'title':cFL_(''+ps('common_word')+' List',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
+	_addon.add_directory({'mode':'SelectAZ','url':_domain_url+'/'+ps('common_word')+'List'},{'title':cFL_(''+ps('common_word')+' List',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
+	_addon.add_directory({'mode':'SelectGenre','url':_domain_url+'/'},{'title':cFL_('Genre',ps('cFL_color'))},fanart=_artFanart,img=art('genre','.jpg'))
+	#
 	_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/Status/Ongoing'},{'title':cFL_('Ongoing',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
 	_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/Status/Completed'},{'title':cFL_('Completed',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/'+ps('common_word')+'List'},{'title':cFL_(''+ps('common_word')+' List [Alphabet]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/'+ps('common_word')+'List/MostPopular'},{'title':cFL_(''+ps('common_word')+' List [Popularity]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/'+ps('common_word')+'List/LatestUpdate'},{'title':cFL_(''+ps('common_word')+' List [Latest Update]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/'+ps('common_word')+'List/Newest'},{'title':cFL_(''+ps('common_word')+' List [Newest]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	_addon.add_directory({'mode':'BrowseGenre'},{'title':cFL_('Genres',ps('cFL_color'))},fanart=_artFanart,img=art('genre','.jpg'))
+	#
+	if (tfalse(addst("oldmenu"))==True):
+		_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/'+ps('common_word')+'List'},{'title':cFL_(''+ps('common_word')+' List [Alphabet]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
+		_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/'+ps('common_word')+'List/MostPopular'},{'title':cFL_(''+ps('common_word')+' List [Popularity]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
+		_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/'+ps('common_word')+'List/LatestUpdate'},{'title':cFL_(''+ps('common_word')+' List [Latest Update]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
+		_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/'+ps('common_word')+'List/Newest'},{'title':cFL_(''+ps('common_word')+' List [Newest]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
+		_addon.add_directory({'mode':'BrowseGenre'},{'title':cFL_('Genres',ps('cFL_color'))},fanart=_artFanart,img=art('genre','.jpg'))
 	_addon.add_directory({'mode':'Search','pageno': '1', 'pagecount': addst('pages')},{'title':cFL_('Search',ps('cFL_color'))},fanart=_artFanart,img=ps('img_search'))
-	##TestUrl1='http://r4---sn-p5qlsu7d.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=5&source=picasa&ip=199.0.197.160&ipbits=0&expire=1380928317&sparams=expire,id,ip,ipbits,itag,source&signature=77DA912CB7CB9C57BA37FE40DD35DEB3FFD18B3E.4B979F680FDE20B31677055E5810450BAB047091&key=cms1&redirect_counter=1&cms_redirect=yes&ms=tsu&mt=1378337052&mv=m'
-	##_addon.add_directory({'mode':'GetTitles','url':TestUrl1},{'title':cFL_('Test Url 1',ps('cFL_color3'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	##TestUrl2='http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=5&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380928317&sparams=id,itag,source,ip,ipbits,expire&signature=4FB23AE293716FADFB993D5F3893547BDB116F94.1FDBA6168538ACFD438D55EEEAC5011C1B0C9A80&key=lh1&title=Episode+001'
-	##_addon.add_directory({'mode':'GetTitles','url':TestUrl2},{'title':cFL_('Test Url 2',ps('cFL_color3'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	##_addon.add_directory({'mode': 'LoadCategories', 'section': ps('section.movie')},		{'title':  cFL('M',ps('cFL_color'))+'ovies'}  ,img=art('movies')				,fanart=_artFanart)
-	##_addon.add_directory({'mode': 'LoadCategories', 'section': ps('section.tv')}, 			{'title':  cFL('T',ps('cFL_color'))+'V Shows'},img=art('television')		,fanart=_artFanart)
-	##_addon.add_directory({'mode': 'LoadCategories', 'section': ps('section.trailers')},	{'title':  cFL('C',ps('cFL_color'))+'oming Soon'},img=ps('img.comingsoon'),fanart=_artFanart)
-	##_addon.add_directory({'mode': 'LoadCategories', 'section': ps('section.users')},		{'title':  cFL('U',ps('cFL_color'))+'sers'}		,img=ps('img.usersection'),fanart=_artFanart)
-	##_addon.add_directory({'mode': 'GetLatestSearches', 'section': 'Both'},		{'title':  cFL('L',ps('cFL_color'))+'atest Searches'}		,img=art('icon-search')		,fanart=_artFanart)
-	_addon.add_directory(  {'mode': 'FavoritesList'},	 										{'title':  cFL_('Favorites '+addst('fav.movies.1.name'),ps('cFL_color3'))},fanart=_artFanart,img=_art404)
-	_addon.add_directory(  {'mode': 'FavoritesList', 	'subfav': '2'},	 		{'title':  cFL_('Favorites '+addst('fav.movies.2.name'),ps('cFL_color3'))},fanart=_artFanart,img=_art404)
+	#
+	_addon.add_directory({'mode': 'FavoritesList'},{'title':  cFL_('Favorites '+addst('fav.movies.1.name'),ps('cFL_color3'))},fanart=_artFanart,img=_art404)
+	_addon.add_directory({'mode': 'FavoritesList','subfav': '2'},{'title':  cFL_('Favorites '+addst('fav.movies.2.name'),ps('cFL_color3'))},fanart=_artFanart,img=_art404)
+	_addon.add_directory({'mode': 'FavoritesList','subfav': '3'},{'title':  cFL_('Favorites '+addst('fav.movies.3.name'),ps('cFL_color3'))},fanart=_artFanart,img=_art404)
+	_addon.add_directory({'mode': 'FavoritesList','subfav': '4'},{'title':  cFL_('Favorites '+addst('fav.movies.4.name'),ps('cFL_color3'))},fanart=_artFanart,img=_art404)
+	#
 	_addon.add_directory({'mode': 'ResolverSettings'}, {'title':  cFL('U',ps('cFL_color2'))+'rl-Resolver Settings'},is_folder=False		,img=art('turtle','.jpg')	,fanart=_artFanart)
 	_addon.add_directory({'mode': 'Settings'}, 				 {'title':  cFL('P',ps('cFL_color2'))+'lugin Settings'}			,is_folder=False		,img=art('kiss')							,fanart=_artFanart)
 	##_addon.add_directory({'mode': 'DownloadStop'}, 		 {'title':  cFL('S',ps('cFL_color'))+'top Current Download'},is_folder=False		,img=_artDead							,fanart=_artFanart)
 	_addon.add_directory({'mode': 'TextBoxFile',  'title': "[COLOR cornflowerblue]Local Change Log:[/COLOR]  %s"  % (__plugin__), 'url': ps('changelog.local')}, 	{'title': cFL_('Local Change Log',ps('cFL_color3'))},					img=art('thechangelog','.jpg'), is_folder=False ,fanart=_artFanart)
-	#if (_setting['label-empty-favorites']==True):
-	#	_addon.add_directory({'section': section, 'mode': 'FavoritesEmpty', 'subfav':  ''},	 		{'title':  cFL('E',ps('cFL_color'))+'mpty Favorites '+addst('fav.movies.1.name')},fanart=_artFanart,img=art('trash','.gif'),is_folder=False)
-	#	_addon.add_directory({'section': section, 'mode': 'FavoritesEmpty', 'subfav': '2'},	 		{'title':  cFL('E',ps('cFL_color'))+'mpty Favorites '+addst('fav.movies.2.name')},fanart=_artFanart,img=art('trash','.gif'),is_folder=False)
+	if (tfalse(addst("label-empty-favorites"))==True):
+		_addon.add_directory({'section': '', 'mode': 'FavoritesEmpty', 'subfav':  ''},	 		{'title':  cFL('E',ps('cFL_color'))+'mpty Favorites '+addst('fav.movies.1.name')},fanart=_artFanart,img=art('trash','.gif'),is_folder=False)
+		_addon.add_directory({'section': '', 'mode': 'FavoritesEmpty', 'subfav': '2'},	 		{'title':  cFL('E',ps('cFL_color'))+'mpty Favorites '+addst('fav.movies.2.name')},fanart=_artFanart,img=art('trash','.gif'),is_folder=False)
+		_addon.add_directory({'section': '', 'mode': 'FavoritesEmpty', 'subfav': '3'},	 		{'title':  cFL('E',ps('cFL_color'))+'mpty Favorites '+addst('fav.movies.3.name')},fanart=_artFanart,img=art('trash','.gif'),is_folder=False)
+		_addon.add_directory({'section': '', 'mode': 'FavoritesEmpty', 'subfav': '4'},	 		{'title':  cFL('E',ps('cFL_color'))+'mpty Favorites '+addst('fav.movies.4.name')},fanart=_artFanart,img=art('trash','.gif'),is_folder=False)
 	##_addon.add_directory({'mode': 'TextBoxUrl',   'title': "[COLOR cornflowerblue]Latest Change Log:[/COLOR]  %s" % (__plugin__), 'url': ps('changelog.url')}, 		{'title': cFL('L',ps('cFL_color'))+'atest Online Change Log'},	img=art('thechangelog','.jpg'), is_folder=False ,fanart=_artFanart)
 	##_addon.add_directory({'mode': 'TextBoxUrl',   'title': "[COLOR cornflowerblue]Latest News:[/COLOR]  %s"       % (__plugin__), 'url': ps('news.url')}, 				{'title': cFL('L',ps('cFL_color'))+'atest Online News'},				img=_art404										, is_folder=False ,fanart=_artFanart)
 	##_addon.add_directory({'mode': 'LatestThreads','title': "[COLOR cornflowerblue]Latest Threads[/COLOR]", 'url': ps('LatestThreads.url')}, 											{'title': cFL('L',ps('cFL_color'))+'atest Threads'},						img=_art404										, is_folder=False ,fanart=_artFanart)
@@ -1941,6 +1960,9 @@ def check_mode(mode=''):
 	#elif (mode=='BrowseYear'): 						Menu_BrowseByYear(_param['section'])
 	elif (mode=='BrowseGenre'): 					Menu_BrowseByGenre(_param['section'])
 	elif (mode=='BrowseAZ'): 							Menu_BrowseByAZ(_param['section'],_param['url'])
+	elif (mode=='SelectAZ'): 							Select_AZ(_param['url'])
+	elif (mode=='SelectSort'): 						Select_Sort(_param['url'],_param['title'])
+	elif (mode=='SelectGenre'): 					Select_Genre(_param['url'])
 	#elif (mode=='BrowseCountry'): 				Menu_BrowseByCountry(_param['section'])
 	#elif (mode=='BrowseLatest'): 				BrowseLatest(_param['section'])
 	#elif (mode=='BrowsePopular'): 				BrowsePopular(_param['section'])

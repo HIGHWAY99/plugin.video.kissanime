@@ -5,6 +5,7 @@
 		<setting id="debug-enable" 	type="bool" label="Enable Debugging to File" default="false" visible="true"/>
 		<setting id="debug-show" 		type="bool" label="Enable Debugging to Notice(s)" default="false" visible="true"/>
 		<setting id="label-empty-favorites" 		type="bool" label="Show Labels in List: Empty Favorites" default="false" visible="true"/>
+		<setting id="oldmenu" 		type="bool" label="Display Old Items on the Main Menu" default="false" visible="true"/>
 	</category>
 	<category label="Auto-View">
 		<setting id="auto-view" type="bool"   label="Enable Automatic View" default="false"/>
@@ -25,9 +26,13 @@
 	<category label="Anime">
 		<setting visible="true" type="text" default=""  id="fav.movies.1.name" label="Favorites 1: Name" />
 		<setting visible="true" type="text" default="2" id="fav.movies.2.name" label="Favorites 2: Name" />
+		<setting visible="true" type="text" default="3" id="fav.movies.3.name" label="Favorites 3: Name" />
+		<setting visible="true" type="text" default="4" id="fav.movies.4.name" label="Favorites 4: Name" />
 		<setting visible="true" id="movies-favorites-clear-enable" type="bool"   label="  \/  ( Dummy Proofing )" default="false"/>
 		<setting visible="true" label="Clear Favorites"   type="action" 	enable="!eq(-1,false)" action="RunPlugin(plugin://plugin.video.kissanime/default.py?mode=FavoritesEmpty&secction=&subfav=)"/>
 		<setting visible="true" label="Clear Favorites 2" type="action" 	enable="!eq(-2,false)" action="RunPlugin(plugin://plugin.video.kissanime/default.py?mode=FavoritesEmpty&secction=&subfav=2)"/>
+		<setting visible="true" label="Clear Favorites 3" type="action" 	enable="!eq(-3,false)" action="RunPlugin(plugin://plugin.video.kissanime/default.py?mode=FavoritesEmpty&secction=&subfav=3)"/>
+		<setting visible="true" label="Clear Favorites 4" type="action" 	enable="!eq(-4,false)" action="RunPlugin(plugin://plugin.video.kissanime/default.py?mode=FavoritesEmpty&secction=&subfav=4)"/>
 	</category>
 	<category label="TV">
 		<setting visible="false" type="text" default=""  id="fav.tv.1.name" label="Favorites 1: Name" />
