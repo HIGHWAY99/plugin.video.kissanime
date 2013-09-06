@@ -1,9 +1,9 @@
 ### ############################################################################################################
 ###	#	
-### # Project: 			#		SolarMovie.so - by The Highway 2013.
+### # Project: 			#		KissAnime.com - by The Highway 2013.
 ### # Author: 			#		The Highway
-### # Version:			#		v0.2.7
-### # Description: 	#		http://www.solarmovie.so
+### # Version:			#		v0.2.8
+### # Description: 	#		http://www.KissAnime.com
 ###	#	
 ### ############################################################################################################
 ### ############################################################################################################
@@ -33,8 +33,8 @@ try: 		from t0mm0.common.net 					import Net
 except: from t0mm0_common_net 					import Net
 try: 		from sqlite3 										import dbapi2 as sqlite; print "Loading sqlite3 as DB engine"
 except: from pysqlite2 									import dbapi2 as sqlite; print "Loading pysqlite2 as DB engine"
-try: 		from script.module.metahandler 	import metahandlers
-except: from metahandler 								import metahandlers
+#try: 		from script.module.metahandler 	import metahandlers
+#except: from metahandler 								import metahandlers
 ### 
 from teh_tools 		import *
 from config 			import *
@@ -46,6 +46,7 @@ __plugin__=ps('__plugin__'); __authors__=ps('__authors__'); __credits__=ps('__cr
 _database_file=os.path.join(xbmc.translatePath("special://database"),ps('_database_name')+'.db'); 
 ### 
 _addon=Addon(ps('_addon_id'), sys.argv); addon=_addon; _plugin=xbmcaddon.Addon(id=ps('_addon_id')); cache=StorageServer.StorageServer(ps('_addon_id'))
+### 
 ### ############################################################################################################
 ### ############################################################################################################
 ### ############################################################################################################
@@ -68,10 +69,11 @@ CurrentPercent=0; CancelDownload=False
 
 ##### /\ ##### Settings #####
 ##### Variables #####
-_art404='http://www.solarmovie.so/images/404.png' #_art404=art('404')
-_art150='http://www.solarmovie.so/images/thumb150.png' #_art150=art('thumb150')
-_artDead='http://www.solarmovie.so/images/deadplanet.png' #_artDead=art('deadplanet')
-_artSun=art('sun'); COUNTRIES=ps('COUNTRIES'); GENRES=ps('GENRES'); _default_section_=ps('default_section'); net=Net(); DB=_database_file; BASE_URL=_domain_url;
+_art404=ps('img_hot') #'http://www.solarmovie.so/images/404.png' #_art404=art('404')
+_art150=ps('img_hot') #'http://www.solarmovie.so/images/thumb150.png' #_art150=art('thumb150')
+_artDead=ps('img_hot') #'http://www.solarmovie.so/images/deadplanet.png' #_artDead=art('deadplanet')
+_artSun=ps('img_hot') #art('sun'); 
+COUNTRIES=ps('COUNTRIES'); GENRES=ps('GENRES'); _default_section_=ps('default_section'); net=Net(); DB=_database_file; BASE_URL=_domain_url;
 #_artFanart=xbmc.translatePath(os.path.join(_addonPath,'fanart5.jpg'))
 ##### /\ ##### Variables #####
 deb('Addon Path',_addonPath);  deb('Art Path',_artPath); deb('Addon Icon Path',_artIcon); deb('Addon Fanart Path',_artFanart)
@@ -995,23 +997,6 @@ def Library_SaveTo_TV(section,url,img,name,year,country,season_number,episode_nu
 	set_view('episodes',ps('setview.episodes')); eod()
 
 
-def Menu_BrowseByCountry(section=_default_section_):
-	url=''; WhereAmI('@ the Genre Menu')#print 'Browse by genres screen'
-	ItemCount=len(COUNTRIES) # , total_items=ItemCount
-	for country in COUNTRIES:
-		#img='http://www.photius.com/flags/thumbnails/af-t.gif'
-		gif=name2pathU(country)
-		if   (gif=='Bosnia-Herzegovina'): gif='Bosnia-Hercegovina'
-		elif (gif=='Democratic-Republic-of-Congo'): gif='Congo-Democratic-Republic-of'
-		elif (gif=='East-Germany'): gif='Germany'
-		elif (gif=='West-Germany'): gif='Germany'
-		img='http://www.countries-ofthe-world.com/flags/flag-of-'+gif+'.gif'
-		if (' and ' in country): print img
-		if (section==ps('section.movie')): 	url=_domain_url+'/movies-from-'			+name2path(country)+'.html'
-		else: 															url=_domain_url+'/tv/tv-shows-from-'+name2path(country)+'.html'
-		_addon.add_directory({'section': section,'mode': 'GetTitles','url': url,'country': country,'bycountry': country,'pageno': '1','pagecount': addst('pages')}, {'title':  country},img=img,fanart=_artFanart, total_items=ItemCount)
-	set_view('list',addst('default-view')); eod()
-
 def Menu_BrowseByGenre(section=_default_section_):
 	url=''; WhereAmI('@ the Genre Menu')#print 'Browse by genres screen'
 	browsebyImg=checkImgLocal(art('genre','.jpg'))
@@ -1057,25 +1042,6 @@ def Menu_BrowseByAZ(section=_default_section_,url='http://kissanime.com/AnimeLis
 			pars={'mode': 'GetTitles','url': url,'pageno': '1','pagecount': addst('pages')}
 			labs={'title':  genre+'  ['+cFL(o['tt'],ps('cFL_color2'))+']'}
 			_addon.add_directory(pars,labs,img=img,fanart=_artFanart,total_items=ItemCount)
-	set_view('list',addst('default-view')); eod()
-
-def Menu_BrowseByYear(section=_default_section_):
-	url=''; WhereAmI('@ the Year Menu'); EarliestYear=(ps('BrowseByYear.earliestyear') - 1) #1929 #1930 ### This is set to 1 year earlier so that it will display too ### 
-	try: thisyear=int(datetime.date.today().strftime("%Y"))
-	except: thisyear=ps('BrowseByYear.thisyear')
-	browsebyImg=checkImgLocal(art('year','.gif'))
-	ItemCount=len(range(thisyear, EarliestYear, ps('BrowseByYear.range.by'))) # , total_items=ItemCount
-	for year in range(thisyear, EarliestYear, ps('BrowseByYear.range.by')):
-		img=''; imgName=str(year)
-		#if (img==''): img=checkImgUrl('http://www.iconarchive.com/download/i67121/aaron-sinuhe/series-season-folder/season-'+imgName+'.ico')
-		#if (img==''): img=checkImgUrl('http://icons.iconarchive.com/icons/aaron-sinuhe/series-season-folder/256/season-'+imgName+'-icon.png')
-		if (img=='') and (browsebyImg is not ''): img=browsebyImg
-		#
-		#
-		if (img==''): img=_artSun
-		if section == ps('section.movie'): 	url=_domain_url+ps('BrowseByYear.movie.url1')	+str(year)+ps('BrowseByYear.movie.url2')
-		else: 															url=_domain_url+ps('BrowseByYear.tv.url1')		+str(year)+ps('BrowseByYear.tv.url2')
-		_addon.add_directory({'section': section,'mode': 'GetTitles', 'url': url,'year': year,'pageno': '1','pagecount': addst('pages')}, {'title':  str(year)},img=img,fanart=_artFanart, total_items=ItemCount)
 	set_view('list',addst('default-view')); eod()
 
 ##def listItems(section=_default_section_, url='', html='', episode=False, startPage='1', numOfPages='1', genre='', year='', stitle=''): # List: Movies or TV Shows
@@ -1136,30 +1102,102 @@ def listItems(section=_default_section_, url='', startPage='1', numOfPages='1', 
 	deb('Length of HTML',str(len(html)))
 	######
 	if (len(html)==0): deb('Error','html is empty.'); return
-	s='<a\n*\s*href="(/Anime/[A-Za-z0-9\-/_]+)"\n*\s*title=\'(.*?)\'\n*\s*/*>\n*\s*(.+?)\s*\n*\s*</a>'
+	s='<a\n*\s*href="(/'+ps('common_word')+'/[A-Za-z0-9\-/_]+)"\n*\s*title=\'(.*?)\'\n*\s*/*>\n*\s*(.+?)\s*\n*\s*</a>'
 	iitems=re.compile(s, re.DOTALL).findall(html) ### , re.MULTILINE | re.IGNORECASE | re.DOTALL
 	if (iitems is not None):
 		ItemCount=len(iitems) # , total_items=ItemCount
 		deb('# of items',str(ItemCount))
+		EnableMeta=tfalse(addst("enableMeta"))
 		for item_url, tInfo, name in iitems:
-			contextMenuItems=[]; labs={}; item_url=_domain_url+item_url
-			#try: img=re.compile('("http://kissanime.com/Uploads/Etc/[0-9\-]+/[0-9]+[A-Za-z0-9\-_/\s]*.jpg)"').findall(tInfo)[0]
+			contextMenuItems=[]; item_url=_domain_url+item_url; labs={}; 
 			try: img=re.compile('"(http://.+?\.jpg)"').findall(tInfo)[0].replace(' ','%20')
 			except: img=_artIcon
+			fimg=''+img
 			if ('<p>' in tInfo) and ('</p>' in tInfo):
 				try: labs['plot']=re.compile('<p>\s*\n*\s*(.+?)\s*\n*\s*</p>').findall(tInfo)[0].strip()
 				except: labs['plot']=''
 			else: labs['plot']=''
-			labs['title']=name
-			deb('title',labs['title'])
-			deb('url',item_url)
-			deb('plot',labs['plot'])
-			deb('img',img)
+			#
+			if (EnableMeta==True):
+				animetype='tvshow'; animename=''+name
+				animename.replace(' (Dub)','').replace(' (Sub)','').replace(' (TV)','').replace(' OVA','').replace(' Movies','').replace(' Movie','').replace(' Specials','').replace(' New','')
+				#
+				#.replace(' (Dub)',' [COLOR green](Dub)[/COLOR]')
+				#.replace(' (Sub)',' [COLOR blue](Sub)[/COLOR]')
+				#.replace(' OVA',' [COLOR red]OVA[/COLOR]')
+				#.replace(' Movie',' [COLOR maroon]Movie[/COLOR]')
+				#.replace(': ',':[CR] ')
+				#.replace(' New',' [COLOR yellow]New[/COLOR]')
+				#.replace(' (TV)',' [COLOR cornflowerblue](TV)[/COLOR]')
+				#.replace(' Specials',' [COLOR deeppink]Specials[/COLOR]') #.replace('','')
+				#.replace('','')
+				mlabs=GRABMETA(animename,'tvshow')
+				mlabsMovie=GRABMETA(animename,'movie')
+				#mlabs=GRABMETA(animename,animetype)
+				#mlabs=GRABMETA('the walking dead',animetype)
+				print 'mlabs'
+				print mlabs
+				print 'mlabsMovie'
+				print mlabsMovie
+				#if (mlabs['backdrop_url'] is not None): fimg=mlabs['backdrop_url']
+				if (len(mlabs['backdrop_url']) > 0): 
+					fimg=mlabs['backdrop_url']
+					labs['rating']=mlabs['rating']
+				elif (len(mlabsMovie['backdrop_url']) > 0): 
+					fimg=mlabsMovie['backdrop_url']
+					labs['rating']=mlabsMovie['rating']
+				if (len(mlabs['cover_url']) > 0): img=mlabs['cover_url']
+				elif (len(mlabsMovie['cover_url']) > 0): img=mlabsMovie['cover_url']
+				#labs['poster_url']=img
+				#labs['poster']=img
+				#labs['cover']=img
+				if (len(mlabs['cast']) > 0): labs['cast']=mlabs['cast']
+				elif (len(mlabsMovie['cast']) > 0): labs['cast']=mlabsMovie['cast']
+				#print 'cast'; print labs['cast']
+				if (len(mlabs['genre']) > 0): labs['genre']=mlabs['genre']
+				elif (len(mlabsMovie['genre']) > 0): labs['genre']=mlabsMovie['genre']
+				if (len(mlabs['studio']) > 0): labs['studio']=mlabs['studio']
+				#elif (len(mlabsMovie['studio']) > 0): labs['studio']=mlabsMovie['studio']
+				if (len(mlabs['banner_url']) > 0): 
+					labs['banner_url']=mlabs['banner_url']
+					labs['banner']=mlabs['banner_url']
+				#elif (len(mlabsMovie['banner_url']) > 0): labs['banner_url']=mlabsMovie['banner_url']
+				if (mlabsMovie['year'] > 0): labs['year']=mlabsMovie['year']
+				if (len(mlabsMovie['tmdb_id']) > 0): labs['tmdb_id']=mlabsMovie['tmdb_id']
+				if (len(mlabsMovie['director']) > 0): labs['director']=mlabsMovie['director']
+				if (len(mlabsMovie['writer']) > 0): labs['writer']=mlabsMovie['writer']
+				if (len(mlabs['mpaa']) > 0): labs['mpaa']=mlabs['mpaa']
+				elif (len(mlabsMovie['mpaa']) > 0): labs['mpaa']=mlabsMovie['mpaa']
+				if (len(mlabsMovie['duration']) > 0): labs['duration']=mlabsMovie['duration']
+				if (len(mlabs['status']) > 0): labs['status']=mlabs['status']
+				
+				#if (len(mlabs['rating']) > 0): labs['rating']=mlabs['rating']
+				#elif (len(mlabsMovie['rating']) > 0): labs['rating']=mlabsMovie['rating']
+				#if (len(mlabs['rating']) > 0): labs['rating']=mlabs['rating']
+				#elif (len(mlabsMovie['rating']) > 0): labs['rating']=mlabsMovie['rating']
+				
+				
+				if (len(labs['plot'])==0) and (len(mlabs['plot']) > 0): labs['plot']=mlabs['plot']
+				elif (len(labs['plot'])==0) and (len(mlabsMovie['plot']) > 0): labs['plot']=mlabsMovie['plot']
+				
+			#
+			#mlabs['']  mlabs['backdrop_url']
+			#try: img=re.compile('("http://kissanime.com/Uploads/Etc/[0-9\-]+/[0-9]+[A-Za-z0-9\-_/\s]*.jpg)"').findall(tInfo)[0]
+			labs['title']=name.replace(' (Dub)',' [COLOR green](Dub)[/COLOR]').replace(' (Sub)',' [COLOR blue](Sub)[/COLOR]').replace(' OVA',' [COLOR red]OVA[/COLOR]').replace(' Movie',' [COLOR maroon]Movie[/COLOR]').replace(': ',':[CR] ').replace(' New',' [COLOR yellow]New[/COLOR]').replace(' (TV)',' [COLOR cornflowerblue](TV)[/COLOR]').replace(' Specials',' [COLOR deeppink]Specials[/COLOR]') #.replace('','')
+			deb('title',labs['title']); deb('url',item_url); deb('plot',labs['plot']); deb('img',img); deb('fanart',fimg)
 			##### Right Click Menu for: Anime #####
 			contextMenuItems.append((ps('cMI.showinfo.name'),ps('cMI.showinfo.url')))
+			contextMenuItems.append((ps('cMI.favorites.tv.add.name')+' '+addst('fav.movies.1.name'),ps('cMI.favorites.movie.add.url') % (sys.argv[0],ps('cMI.favorites.tv.add.mode'),section,urllib.quote_plus(name),'',urllib.quote_plus(img),urllib.quote_plus(img),urllib.quote_plus(''),urllib.quote_plus(labs['plot']),urllib.quote_plus(''),urllib.quote_plus(item_url), '' )))
+			contextMenuItems.append((ps('cMI.favorites.tv.add.name')+' '+addst('fav.movies.2.name'),ps('cMI.favorites.movie.add.url') % (sys.argv[0],ps('cMI.favorites.tv.add.mode'),section,urllib.quote_plus(name),'',urllib.quote_plus(img),urllib.quote_plus(img),urllib.quote_plus(''),urllib.quote_plus(labs['plot']),urllib.quote_plus(''),urllib.quote_plus(item_url),'2' )))
+			##if (labs['fanart'] is not ''): contextMenuItems.append(('Download Wallpaper', 'XBMC.RunPlugin(%s)' % _addon.build_plugin_url( { 'mode': 'Download' , 'section': ps('section.wallpaper') , 'studio': name+'  ('+year+')' , 'img': labs['thumbnail'] , 'url': labs['fanart'] } ) ))
+			##contextMenuItems.append(('Add - Library','XBMC.RunPlugin(%s?mode=%s&section=%s&title=%s&showtitle=%s&showyear=%s&url=%s&img=%s)' % ( sys.argv[0],'LibrarySaveMovie',section, urllib.quote_plus(name), urllib.quote_plus(name), urllib.quote_plus(year), urllib.quote_plus(_domain_url+item_url), urllib.quote_plus(thumbnail))))
+			##if os.path.exists(xbmc.translatePath(ps('special.home.addons'))+ps('cMI.1ch.search.folder')):
+			##	contextMenuItems.append((ps('cMI.1ch.search.name'), 					ps('cMI.1ch.search.url') 				% (ps('cMI.1ch.search.plugin'), 			ps('cMI.1ch.search.section'), 			name)))
+			##if os.path.exists(xbmc.translatePath(ps('special.home.addons'))+ps('cMI.primewire.search.folder')):
+			##	contextMenuItems.append((ps('cMI.primewire.search.name'), 		ps('cMI.primewire.search.url') 	% (ps('cMI.primewire.search.plugin'), ps('cMI.primewire.search.section'), name)))
 			##### Right Click Menu for: Anime ##### /\ #####
 			pars={'mode':'GetEpisodes','url':item_url,'img':img,'title':labs['title']}
-			_addon.add_directory(pars, labs, img=img, fanart=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
+			_addon.add_directory(pars, labs, img=img, fanart=fimg, contextmenu_items=contextMenuItems, total_items=ItemCount)
 	else: deb('Error','no items found.')
 	set_view('tvshows',addst('anime-view')); eod(); return
 	################################################################################
@@ -1519,7 +1557,7 @@ def listEpisodes(section, url, img='', season=''): #_param['img']
 	html=messupText(html,_html=True,_ende=True,_a=False,Slashes=False)
 	#if (img==''): match=re.search( 'coverImage">.+?src="(.+?)"', html, re.IGNORECASE | re.MULTILINE | re.DOTALL); img=match.group(1)
 	if (img==''): img=_artIcon
-	s='<tr>\s*\n*\s*<td>\s*\n*\s*<a\s*\n*\s*href="(/Anime/.+?\?id=[0-9]+)"\s*\n*\s*title="Watch .+?"\s*\n*\s*>\s*\n*\s*(.+?)\s*\n*\s*</a>\s*\n*\s*</td>\s*\n*\s*<td>\s*\n*\s*([0-9/]*)\s*\n*\s*</td>'
+	s='<tr>\s*\n*\s*<td>\s*\n*\s*<a\s*\n*\s*href="(/'+ps('common_word')+'/.+?\?id=[0-9]+)"\s*\n*\s*title="'+ps('common_word2')+' .+?"\s*\n*\s*>\s*\n*\s*(.+?)\s*\n*\s*</a>\s*\n*\s*</td>\s*\n*\s*<td>\s*\n*\s*([0-9/]*)\s*\n*\s*</td>'
 	try:		episodes=re.compile(s, re.DOTALL).findall(html)
 	except:	episodes=''
 	if (not episodes) or (episodes==None) or (episodes==False) or (episodes==''): deb('Episodes','couldn\'t find episodes'); eod(); return
@@ -1528,7 +1566,8 @@ def listEpisodes(section, url, img='', season=''): #_param['img']
 		contextMenuItems=[]; labs={}; ep_url=_domain_url+ep_url
 		contextMenuItems.append((ps('cMI.showinfo.name'),ps('cMI.showinfo.url')))
 		#contextMenuItems.append(('Add - Library','XBMC.RunPlugin(%s?mode=%s&section=%s&title=%s&showtitle=%s&showyear=%s&url=%s&img=%s&season=%s&episode=%s&episodetitle=%s)' % ( sys.argv[0],'LibrarySaveEpisode',section, urllib.quote_plus(_param['title']), urllib.quote_plus(_param['showtitle']), urllib.quote_plus(_param['year']), urllib.quote_plus(ep_url), urllib.quote_plus(labs['thumbnail']), urllib.quote_plus(season_number), urllib.quote_plus(episode_number), urllib.quote_plus(episode_name) )))
-		labs['title']=ep_name
+		labs['title']=ep_name.replace(' Episode',' [CR]Episode')
+		if ('[CR]' in labs['title']): labs['title']=labs['title'].split('[CR]')[1]
 		deb('Episode Name',labs['title']); deb('episode thumbnail',img)
 		pars={'mode':'GetLinks','img':img,'url':ep_url,'title':ep_name}
 		_addon.add_directory(pars,labs,img=img,fanart=img,contextmenu_items=contextMenuItems,total_items=ItemCount)
@@ -1619,35 +1658,40 @@ def Menu_LoadCategories(section=_default_section_): #Categories
 
 def Menu_MainMenu(): #The Main Menu
 	WhereAmI('@ the Main Menu')
-	#_addon.add_directory({'mode':'BrowseAZ','url':'http://kissanime.com/Status/Ongoing'},{'title':cFL_('Ongoing',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	#_addon.add_directory({'mode':'BrowseAZ','url':'http://kissanime.com/Status/Completed'},{'title':cFL_('Completed',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	#_addon.add_directory({'mode':'BrowseAZ','url':'http://kissanime.com/AnimeList'},{'title':cFL_('Anime List',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	_addon.add_directory({'mode':'GetTitles','url':'http://kissanime.com/Status/Ongoing'},{'title':cFL_('Ongoing',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	_addon.add_directory({'mode':'GetTitles','url':'http://kissanime.com/Status/Completed'},{'title':cFL_('Completed',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	_addon.add_directory({'mode':'GetTitles','url':'http://kissanime.com/AnimeList'},{'title':cFL_('Anime List [Alphabet]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	_addon.add_directory({'mode':'GetTitles','url':'http://kissanime.com/AnimeList/MostPopular'},{'title':cFL_('Anime List [Popularity]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	_addon.add_directory({'mode':'GetTitles','url':'http://kissanime.com/AnimeList/LatestUpdate'},{'title':cFL_('Anime List [Latest Update]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	_addon.add_directory({'mode':'GetTitles','url':'http://kissanime.com/AnimeList/Newest'},{'title':cFL_('Anime List [Newest]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
+	##_addon.add_directory({'mode':'BrowseAZ','url':_domain_url+'/Status/Ongoing'},{'title':cFL_('Ongoing',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
+	##_addon.add_directory({'mode':'BrowseAZ','url':_domain_url+'/Status/Completed'},{'title':cFL_('Completed',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
+	##_addon.add_directory({'mode':'BrowseAZ','url':_domain_url+'/'+ps('common_word')+'List'},{'title':cFL_(''+ps('common_word')+' List',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
+	_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/Status/Ongoing'},{'title':cFL_('Ongoing',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
+	_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/Status/Completed'},{'title':cFL_('Completed',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
+	_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/'+ps('common_word')+'List'},{'title':cFL_(''+ps('common_word')+' List [Alphabet]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
+	_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/'+ps('common_word')+'List/MostPopular'},{'title':cFL_(''+ps('common_word')+' List [Popularity]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
+	_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/'+ps('common_word')+'List/LatestUpdate'},{'title':cFL_(''+ps('common_word')+' List [Latest Update]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
+	_addon.add_directory({'mode':'GetTitles','url':_domain_url+'/'+ps('common_word')+'List/Newest'},{'title':cFL_(''+ps('common_word')+' List [Newest]',ps('cFL_color'))},fanart=_artFanart,img=ps('img_kisslogo'))
 	_addon.add_directory({'mode':'BrowseGenre'},{'title':cFL_('Genres',ps('cFL_color'))},fanart=_artFanart,img=art('genre','.jpg'))
 	_addon.add_directory({'mode':'Search','pageno': '1', 'pagecount': addst('pages')},{'title':cFL_('Search',ps('cFL_color'))},fanart=_artFanart,img=ps('img_search'))
-	#TestUrl1='http://r4---sn-p5qlsu7d.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=5&source=picasa&ip=199.0.197.160&ipbits=0&expire=1380928317&sparams=expire,id,ip,ipbits,itag,source&signature=77DA912CB7CB9C57BA37FE40DD35DEB3FFD18B3E.4B979F680FDE20B31677055E5810450BAB047091&key=cms1&redirect_counter=1&cms_redirect=yes&ms=tsu&mt=1378337052&mv=m'
-	#_addon.add_directory({'mode':'GetTitles','url':TestUrl1},{'title':cFL_('Test Url 1',ps('cFL_color3'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	#TestUrl2='http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=5&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380928317&sparams=id,itag,source,ip,ipbits,expire&signature=4FB23AE293716FADFB993D5F3893547BDB116F94.1FDBA6168538ACFD438D55EEEAC5011C1B0C9A80&key=lh1&title=Episode+001'
-	#_addon.add_directory({'mode':'GetTitles','url':TestUrl2},{'title':cFL_('Test Url 2',ps('cFL_color3'))},fanart=_artFanart,img=ps('img_kisslogo'))
-	#_addon.add_directory({'mode': 'LoadCategories', 'section': ps('section.movie')},		{'title':  cFL('M',ps('cFL_color'))+'ovies'}  ,img=art('movies')				,fanart=_artFanart)
-	#_addon.add_directory({'mode': 'LoadCategories', 'section': ps('section.tv')}, 			{'title':  cFL('T',ps('cFL_color'))+'V Shows'},img=art('television')		,fanart=_artFanart)
-	#_addon.add_directory({'mode': 'LoadCategories', 'section': ps('section.trailers')},	{'title':  cFL('C',ps('cFL_color'))+'oming Soon'},img=ps('img.comingsoon'),fanart=_artFanart)
-	#_addon.add_directory({'mode': 'LoadCategories', 'section': ps('section.users')},		{'title':  cFL('U',ps('cFL_color'))+'sers'}		,img=ps('img.usersection'),fanart=_artFanart)
-	#_addon.add_directory({'mode': 'GetLatestSearches', 'section': 'Both'},		{'title':  cFL('L',ps('cFL_color'))+'atest Searches'}		,img=art('icon-search')		,fanart=_artFanart)
+	##TestUrl1='http://r4---sn-p5qlsu7d.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=5&source=picasa&ip=199.0.197.160&ipbits=0&expire=1380928317&sparams=expire,id,ip,ipbits,itag,source&signature=77DA912CB7CB9C57BA37FE40DD35DEB3FFD18B3E.4B979F680FDE20B31677055E5810450BAB047091&key=cms1&redirect_counter=1&cms_redirect=yes&ms=tsu&mt=1378337052&mv=m'
+	##_addon.add_directory({'mode':'GetTitles','url':TestUrl1},{'title':cFL_('Test Url 1',ps('cFL_color3'))},fanart=_artFanart,img=ps('img_kisslogo'))
+	##TestUrl2='http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=5&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1380928317&sparams=id,itag,source,ip,ipbits,expire&signature=4FB23AE293716FADFB993D5F3893547BDB116F94.1FDBA6168538ACFD438D55EEEAC5011C1B0C9A80&key=lh1&title=Episode+001'
+	##_addon.add_directory({'mode':'GetTitles','url':TestUrl2},{'title':cFL_('Test Url 2',ps('cFL_color3'))},fanart=_artFanart,img=ps('img_kisslogo'))
+	##_addon.add_directory({'mode': 'LoadCategories', 'section': ps('section.movie')},		{'title':  cFL('M',ps('cFL_color'))+'ovies'}  ,img=art('movies')				,fanart=_artFanart)
+	##_addon.add_directory({'mode': 'LoadCategories', 'section': ps('section.tv')}, 			{'title':  cFL('T',ps('cFL_color'))+'V Shows'},img=art('television')		,fanart=_artFanart)
+	##_addon.add_directory({'mode': 'LoadCategories', 'section': ps('section.trailers')},	{'title':  cFL('C',ps('cFL_color'))+'oming Soon'},img=ps('img.comingsoon'),fanart=_artFanart)
+	##_addon.add_directory({'mode': 'LoadCategories', 'section': ps('section.users')},		{'title':  cFL('U',ps('cFL_color'))+'sers'}		,img=ps('img.usersection'),fanart=_artFanart)
+	##_addon.add_directory({'mode': 'GetLatestSearches', 'section': 'Both'},		{'title':  cFL('L',ps('cFL_color'))+'atest Searches'}		,img=art('icon-search')		,fanart=_artFanart)
+	_addon.add_directory(  {'mode': 'FavoritesList'},	 										{'title':  cFL_('Favorites '+addst('fav.movies.1.name'),ps('cFL_color3'))},fanart=_artFanart,img=_art404)
+	_addon.add_directory(  {'mode': 'FavoritesList', 	'subfav': '2'},	 		{'title':  cFL_('Favorites '+addst('fav.movies.2.name'),ps('cFL_color3'))},fanart=_artFanart,img=_art404)
 	_addon.add_directory({'mode': 'ResolverSettings'}, {'title':  cFL('U',ps('cFL_color2'))+'rl-Resolver Settings'},is_folder=False		,img=art('turtle','.jpg')	,fanart=_artFanart)
 	_addon.add_directory({'mode': 'Settings'}, 				 {'title':  cFL('P',ps('cFL_color2'))+'lugin Settings'}			,is_folder=False		,img=art('kiss')							,fanart=_artFanart)
-	#_addon.add_directory({'mode': 'DownloadStop'}, 		 {'title':  cFL('S',ps('cFL_color'))+'top Current Download'},is_folder=False		,img=_artDead							,fanart=_artFanart)
+	##_addon.add_directory({'mode': 'DownloadStop'}, 		 {'title':  cFL('S',ps('cFL_color'))+'top Current Download'},is_folder=False		,img=_artDead							,fanart=_artFanart)
 	_addon.add_directory({'mode': 'TextBoxFile',  'title': "[COLOR cornflowerblue]Local Change Log:[/COLOR]  %s"  % (__plugin__), 'url': ps('changelog.local')}, 	{'title': cFL_('Local Change Log',ps('cFL_color3'))},					img=art('thechangelog','.jpg'), is_folder=False ,fanart=_artFanart)
-	#_addon.add_directory({'mode': 'TextBoxUrl',   'title': "[COLOR cornflowerblue]Latest Change Log:[/COLOR]  %s" % (__plugin__), 'url': ps('changelog.url')}, 		{'title': cFL('L',ps('cFL_color'))+'atest Online Change Log'},	img=art('thechangelog','.jpg'), is_folder=False ,fanart=_artFanart)
-	#_addon.add_directory({'mode': 'TextBoxUrl',   'title': "[COLOR cornflowerblue]Latest News:[/COLOR]  %s"       % (__plugin__), 'url': ps('news.url')}, 				{'title': cFL('L',ps('cFL_color'))+'atest Online News'},				img=_art404										, is_folder=False ,fanart=_artFanart)
-	#_addon.add_directory({'mode': 'LatestThreads','title': "[COLOR cornflowerblue]Latest Threads[/COLOR]", 'url': ps('LatestThreads.url')}, 											{'title': cFL('L',ps('cFL_color'))+'atest Threads'},						img=_art404										, is_folder=False ,fanart=_artFanart)
-	#_addon.add_directory({'mode': 'PrivacyPolicy','title': "", 'url': ''}, 																																												{'title': cFL('P',ps('cFL_color'))+'rivacy Policy'},						img=_art404										, is_folder=False ,fanart=_artFanart)
-	#_addon.add_directory({'mode': 'TermsOfService','title': "", 'url': ''}, 																																											{'title': cFL('T',ps('cFL_color'))+'erms of Service'},					img=_art404										, is_folder=False ,fanart=_artFanart)
+	#if (_setting['label-empty-favorites']==True):
+	#	_addon.add_directory({'section': section, 'mode': 'FavoritesEmpty', 'subfav':  ''},	 		{'title':  cFL('E',ps('cFL_color'))+'mpty Favorites '+addst('fav.movies.1.name')},fanart=_artFanart,img=art('trash','.gif'),is_folder=False)
+	#	_addon.add_directory({'section': section, 'mode': 'FavoritesEmpty', 'subfav': '2'},	 		{'title':  cFL('E',ps('cFL_color'))+'mpty Favorites '+addst('fav.movies.2.name')},fanart=_artFanart,img=art('trash','.gif'),is_folder=False)
+	##_addon.add_directory({'mode': 'TextBoxUrl',   'title': "[COLOR cornflowerblue]Latest Change Log:[/COLOR]  %s" % (__plugin__), 'url': ps('changelog.url')}, 		{'title': cFL('L',ps('cFL_color'))+'atest Online Change Log'},	img=art('thechangelog','.jpg'), is_folder=False ,fanart=_artFanart)
+	##_addon.add_directory({'mode': 'TextBoxUrl',   'title': "[COLOR cornflowerblue]Latest News:[/COLOR]  %s"       % (__plugin__), 'url': ps('news.url')}, 				{'title': cFL('L',ps('cFL_color'))+'atest Online News'},				img=_art404										, is_folder=False ,fanart=_artFanart)
+	##_addon.add_directory({'mode': 'LatestThreads','title': "[COLOR cornflowerblue]Latest Threads[/COLOR]", 'url': ps('LatestThreads.url')}, 											{'title': cFL('L',ps('cFL_color'))+'atest Threads'},						img=_art404										, is_folder=False ,fanart=_artFanart)
+	##_addon.add_directory({'mode': 'PrivacyPolicy','title': "", 'url': ''}, 																																												{'title': cFL('P',ps('cFL_color'))+'rivacy Policy'},						img=_art404										, is_folder=False ,fanart=_artFanart)
+	##_addon.add_directory({'mode': 'TermsOfService','title': "", 'url': ''}, 																																											{'title': cFL('T',ps('cFL_color'))+'erms of Service'},					img=_art404										, is_folder=False ,fanart=_artFanart)
 	### ############ 
 	set_view('list',addst('default-view')); eod()
 	### ############ 
@@ -1698,57 +1742,24 @@ def fav__list(section,subfav=''):
 				if (debugging==True): print '----------------------------'
 				if (debugging==True): print name,year,img,fanart,country,url,plot,genre,dbid #,pars,labs
 				contextMenuItems=[]; labs2={}; labs2['fanart']=''
-				if   (section==ps('section.tv')):
-					labs2['title']=cFL(name+'  ('+cFL(year,ps('cFL_color2'))+')',ps('cFL_color')); labs2['ShowTitle']=name; labs2['year']=year; pars2={'mode': 'GetSeasons', 'section': section, 'url': url, 'img': img, 'image': img, 'fanart': fanart, 'title': name, 'year': year, 'thetvdbid': dbid, 'thetvdb_series_id': dbid, 'Country': country, 'plot': plot }
-					if (country is not ''): labs2['title']=labs2['title']+cFL('  ['+cFL(country,ps('cFL_color3'))+']',ps('cFL_color'))
-					labs2['image']=img; labs2['fanart']=fanart; labs2['PlotOutline']=labs2['plot']=plot; labs2['genre']=genre; labs2['country']=country
-					labs2['poster']=img; labs2['thumb']=img; 
-					#labs2['Overlay']=xbmcgui.ICON_OVERLAY_WATCHED #'7' ### Testing ###  (Watched)  ### 
-					#labs2['overlay']=xbmcgui.ICON_OVERLAY_WATCHED #'7' ### Testing ###  (Watched)  ### 
-					#labs2[u'overlay']=xbmcgui.ICON_OVERLAY_WATCHED #'7' ### Testing ###  (Watched)  ### 
-					#labs2['Overlay']=7 ### Testing ###  (Watched)  ### 
-					#labs2['overlay']=7 ### Testing ###  (Watched)  ### 
-					#labs2['overlay']=6 ### Testing ### (Unwatched) ### 
-					#labs2[u'watched']=7
-					#labs2[u'watch']=7
-					#
-					#
-					##### Right Click Menu for: TV #####
-					contextMenuItems.append((ps('cMI.showinfo.name'),ps('cMI.showinfo.url')))
-					contextMenuItems.append((ps('cMI.airdates.find.name'), 			ps('cMI.airdates.find.url') % (sys.argv[0],ps('cMI.airdates.find.mode'),urllib.quote_plus(name))))
-					#contextMenuItems.append((ps('cMI.favorites.tv.remove.name'),ps('cMI.favorites.tv.remove.url') % (sys.argv[0],ps('cMI.favorites.tv.remove.mode'),section,urllib.quote_plus(name),year,urllib.quote_plus(img),urllib.quote_plus(fanart),urllib.quote_plus(country),urllib.quote_plus(plot),urllib.quote_plus(genre),urllib.quote_plus(url),dbid, '' )))
-					contextMenuItems.append((ps('cMI.favorites.tv.remove.name'),ps('cMI.favorites.tv.remove.url') % (sys.argv[0],ps('cMI.favorites.tv.remove.mode'),section,urllib.quote_plus(name),year,urllib.quote_plus(img),urllib.quote_plus(fanart),urllib.quote_plus(country),urllib.quote_plus(plot),urllib.quote_plus(genre),urllib.quote_plus(url),dbid,subfav )))
-					if os.path.exists(xbmc.translatePath(ps('special.home.addons'))+ps('cMI.1ch.search.folder')):
-						contextMenuItems.append((ps('cMI.1ch.search.name'), 				ps('cMI.1ch.search.url') 				% (ps('cMI.1ch.search.plugin')			, ps('cMI.1ch.search.section.tv'), name)))
-					if os.path.exists(xbmc.translatePath(ps('special.home.addons'))+ps('cMI.primewire.search.folder')):
-						contextMenuItems.append((ps('cMI.primewire.search.name'), 	ps('cMI.primewire.search.url') 	% (ps('cMI.primewire.search.plugin'), ps('cMI.primewire.search.section.tv'), name)))
-					if (fanart is not ''):
-						if (tfalse(addst("CMI_DownloadWallpaper"))==True): contextMenuItems.append(('Download Wallpaper', 'XBMC.RunPlugin(%s)' % _addon.build_plugin_url( { 'mode': 'Download' , 'section': ps('section.wallpaper') , 'studio': name+' ('+year+')' , 'img': img , 'url': fanart } ) ))
-						#contextMenuItems.append(('Change Art', 'XBMC.RunPlugin(%s)' % _addon.build_plugin_url({'mode': 'ChangeFanartList' , 'section': section , 'subfav': subfav, 'studio': name+' ('+year+')' , 'img': img , 'url': dbid , 'fanart': fanart})))
-						if (tfalse(addst("CMI_ChangeFanart"))==True): contextMenuItems.append(('Change Fanart', 'XBMC.Container.Update(%s)' % _addon.build_plugin_url({'mode': 'ChangeFanartList' , 'section': section , 'subfav': subfav, 'studio': name+' ('+year+')' , 'img': img , 'url': dbid , 'fanart': fanart})))
-						#contextMenuItems.append(('Change Art2', 'XBMC.RunPlugin(%s)' % ('plugin://'+sys.argv[0]+'?'{'mode': 'ChangeFanartList' , 'section': section , 'subfav': subfav, 'studio': name+' ('+year+')' , 'img': img , 'url': dbid , 'fanart': fanart})))
-						#contextMenuItems.append(('Change Fanart', 'XBMC.RunPlugin(%s)' % _addon.build_plugin_url( { 'mode': 'ChangeFanartList' , 'section': section , 'subfav': subfav, 'studio': name+' ('+year+')' , 'img': img , 'url': dbid , 'fanart': fanart } ) ))
-					##### Right Click Menu for: TV ##### /\ #####
-					#try: _addon.add_directory2(pars2, labs2, img=img, fanart=fanart, contextmenu_items=contextMenuItems, overlay=7) ## Testing Watched/Unwatched ## 
-					try: _addon.add_directory(pars2, labs2, img=img, fanart=fanart, contextmenu_items=contextMenuItems, total_items=ItemCount)
-					except: deb('Error Listing Item',name+'  ('+year+')')
-				elif (section==ps('section.movie')):
-					labs2['title']=cFL(name+'  ('+cFL(year,ps('cFL_color2'))+')',ps('cFL_color')); labs2['image']=img; labs2['fanart']=fanart; labs2['ShowTitle']=name; labs2['year']=year; pars2={'mode': 'GetLinks', 'section': section, 'url': url, 'img': img, 'image': img, 'fanart': fanart, 'title': name, 'year': year }; labs2['plot']=plot
-					##labs2['title']=cFL(name+'  ('+cFL(year,ps('cFL_color2'))+')  ['+cFL(country,ps('cFL_color3'))+']',ps('cFL_color'))
-					##labs2[u'overlay']=xbmcgui.ICON_OVERLAY_WATCHED
-					##labs2['overlay']=xbmcgui.ICON_OVERLAY_WATCHED
-					#labs2['overlay']=7
-					#
-					##### Right Click Menu for: TV #####
-					contextMenuItems.append((ps('cMI.showinfo.name'),ps('cMI.showinfo.url')))
-					#contextMenuItems.append((ps('cMI.favorites.tv.remove.name'), 	   ps('cMI.favorites.movie.remove.url') % (sys.argv[0],ps('cMI.favorites.tv.remove.mode'),section,urllib.quote_plus(name),year,urllib.quote_plus(img),urllib.quote_plus(fanart),urllib.quote_plus(country),urllib.quote_plus(plot),urllib.quote_plus(genre),urllib.quote_plus(url), '' )))
-					contextMenuItems.append((ps('cMI.favorites.tv.remove.name'),ps('cMI.favorites.movie.remove.url') % (sys.argv[0],ps('cMI.favorites.tv.remove.mode'),section,urllib.quote_plus(name),year,urllib.quote_plus(img),urllib.quote_plus(fanart),urllib.quote_plus(country),urllib.quote_plus(plot),urllib.quote_plus(genre),urllib.quote_plus(url),subfav )))
-					if (fanart is not ''): contextMenuItems.append(('Download Wallpaper', 'XBMC.RunPlugin(%s)' % _addon.build_plugin_url( { 'mode': 'Download' , 'section': ps('section.wallpaper') , 'studio': name+' ('+year+')' , 'img': img , 'url': fanart } ) ))
-					##### Right Click Menu for: TV ##### /\ #####
-					try: _addon.add_directory(pars2, labs2, img=img, fanart=fanart, contextmenu_items=contextMenuItems)
-					except: deb('Error Listing Item',name+'  ('+year+')')
-			if   (section==ps('section.tv')): 		set_view('tvshows',ps('setview.tv')			,True)
-			elif (section==ps('section.movie')): 	set_view('movies' ,ps('setview.movies')	,True)
+				labs2['title']=cFL(name,ps('cFL_color3'))
+				#labs2['title']=cFL(name+'  ('+cFL(year,ps('cFL_color2'))+')',ps('cFL_color')); 
+				labs2['image']=img; labs2['fanart']=fanart; labs2['ShowTitle']=name; labs2['year']=year; pars2={'mode': 'GetLinks', 'section': section, 'url': url, 'img': img, 'image': img, 'fanart': fanart, 'title': name, 'year': year }; labs2['plot']=plot
+				##labs2['title']=cFL(name+'  ('+cFL(year,ps('cFL_color2'))+')  ['+cFL(country,ps('cFL_color3'))+']',ps('cFL_color'))
+				##labs2[u'overlay']=xbmcgui.ICON_OVERLAY_WATCHED
+				##labs2['overlay']=xbmcgui.ICON_OVERLAY_WATCHED
+				#labs2['overlay']=7
+				#
+				##### Right Click Menu for: TV #####
+				contextMenuItems.append((ps('cMI.showinfo.name'),ps('cMI.showinfo.url')))
+				#contextMenuItems.append((ps('cMI.favorites.tv.remove.name'), 	   ps('cMI.favorites.movie.remove.url') % (sys.argv[0],ps('cMI.favorites.tv.remove.mode'),section,urllib.quote_plus(name),year,urllib.quote_plus(img),urllib.quote_plus(fanart),urllib.quote_plus(country),urllib.quote_plus(plot),urllib.quote_plus(genre),urllib.quote_plus(url), '' )))
+				contextMenuItems.append((ps('cMI.favorites.tv.remove.name'),ps('cMI.favorites.movie.remove.url') % (sys.argv[0],ps('cMI.favorites.tv.remove.mode'),section,urllib.quote_plus(name),year,urllib.quote_plus(img),urllib.quote_plus(fanart),urllib.quote_plus(country),urllib.quote_plus(plot),urllib.quote_plus(genre),urllib.quote_plus(url),subfav )))
+				#if (fanart is not ''): contextMenuItems.append(('Download Wallpaper', 'XBMC.RunPlugin(%s)' % _addon.build_plugin_url( { 'mode': 'Download' , 'section': ps('section.wallpaper') , 'studio': name+' ('+year+')' , 'img': img , 'url': fanart } ) ))
+				##### Right Click Menu for: TV ##### /\ #####
+				try: _addon.add_directory(pars2, labs2, img=img, fanart=fanart, contextmenu_items=contextMenuItems)
+				except: deb('Error Listing Item',name+'  ('+year+')')
+			set_view('episodes',addst('episode-view'))
+			#set_view('movies' ,ps('setview.movies')	,True)
 		else: sunNote('Favorites:  '+section,'No favorites found *'); set_view('list',addst('default-view')); eod(); return
 	else: sunNote('Favorites:  '+section,'No favorites found **'); set_view('list',addst('default-view')); eod(); return
 	#set_view('list',addst('default-view')); 
@@ -1813,7 +1824,7 @@ def ChangeFanartList(section,subfav,dbid,current,img,title):
 ### ############################################################################################################
 ##### Search #####
 def doSearchNormal (section,title=''):
-	SearchPrefix='http://kissanime.com/Search/Anime?keyword=%s'
+	SearchPrefix=_domain_url+'/Search/'+ps('common_word')+'?keyword=%s'
 	if (title==''):
 		title=showkeyboard(txtMessage=title,txtHeader="Title:  ("+section+")")
 		if (title=='') or (title=='none') or (title==None) or (title==False): return
@@ -1924,10 +1935,10 @@ def check_mode(mode=''):
 	elif (mode=='ResolverSettings'): 			urlresolver.display_settings()
 	elif (mode=='LoadCategories'): 				Menu_LoadCategories(_param['section'])
 	#elif (mode=='BrowseAtoZ'): 					BrowseAtoZ(_param['section'])
-	elif (mode=='BrowseYear'): 						Menu_BrowseByYear(_param['section'])
+	#elif (mode=='BrowseYear'): 						Menu_BrowseByYear(_param['section'])
 	elif (mode=='BrowseGenre'): 					Menu_BrowseByGenre(_param['section'])
 	elif (mode=='BrowseAZ'): 							Menu_BrowseByAZ(_param['section'],_param['url'])
-	elif (mode=='BrowseCountry'): 				Menu_BrowseByCountry(_param['section'])
+	#elif (mode=='BrowseCountry'): 				Menu_BrowseByCountry(_param['section'])
 	#elif (mode=='BrowseLatest'): 				BrowseLatest(_param['section'])
 	#elif (mode=='BrowsePopular'): 				BrowsePopular(_param['section'])
 	#elif (mode=='GetResults'): 					GetResults(_param['section'], genre, letter, page)

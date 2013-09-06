@@ -202,6 +202,36 @@ http://redirector.googlevideo.com/videoplayback?id=e1ef1df39f5a4243&itag=34&sour
 
 
 
+http://kissanime.com/RSS/Anime/Highschool-DxD
+
+http://kissanime.com/RSS/Anime/[Folder Name for the Show]
+
+
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+<title>High School DxD</title>
+<description>Latest episodes of anime High School DxD</description>
+<link>http://kissanime.com/Anime/Highschool-DxD</link>
+<item><title>Episode 012</title><link>http://kissanime.com/Anime/Highschool-DxD/Episode-012</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>Episode 011</title><link>http://kissanime.com/Anime/Highschool-DxD/Episode-011</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>Episode 010</title><link>http://kissanime.com/Anime/Highschool-DxD/Episode-010</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>Episode 009</title><link>http://kissanime.com/Anime/Highschool-DxD/Episode-009</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>Episode 008</title><link>http://kissanime.com/Anime/Highschool-DxD/Episode-008</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>Episode 007</title><link>http://kissanime.com/Anime/Highschool-DxD/Episode-007</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>Episode 006</title><link>http://kissanime.com/Anime/Highschool-DxD/Episode-006</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>Episode 005</title><link>http://kissanime.com/Anime/Highschool-DxD/Episode-005</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>Episode 004</title><link>http://kissanime.com/Anime/Highschool-DxD/Episode-004</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>Episode 003</title><link>http://kissanime.com/Anime/Highschool-DxD/Episode-003</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>Episode 002</title><link>http://kissanime.com/Anime/Highschool-DxD/Episode-002</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>Episode 001</title><link>http://kissanime.com/Anime/Highschool-DxD/Episode-001</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>_Special_c_</title><link>http://kissanime.com/Anime/Highschool-DxD/_Special_c_-10-bit-_-1280x720_x264-AAC--avi</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>_Special_-_e_[BD]</title><link>http://kissanime.com/Anime/Highschool-DxD/_Special_-_e_-BD--1280x720--61EC03C9--avi</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>_Special_-_d_[BD]</title><link>http://kissanime.com/Anime/Highschool-DxD/_Special_-_d_-BD--10bit--1280x720--4AD9BC7D--avi</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>_Special_-_b_[BD]</title><link>http://kissanime.com/Anime/Highschool-DxD/_Special_-_b_-BD--1280x720--2E41C534--avi</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>_Special_-_a_[BD]</title><link>http://kissanime.com/Anime/Highschool-DxD/_Special_-_a_-BD-</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+<item><title>_SP.avi</title><link>http://kissanime.com/Anime/Highschool-DxD/_SP-avi</link><pubDate>Thu, 27 Dec 2012 09:58:46 GMT</pubDate></item>
+</channel>
+</rss>
 
 
 

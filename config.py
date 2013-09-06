@@ -25,6 +25,8 @@ def ps(x):
 		,'_plugin_id': 					"plugin.video.kissanime"
 		,'_domain_url': 				"http://kissanime.com"
 		,'_database_name': 			"kissanime"
+		,'common_word': 				"Anime"
+		,'common_word2': 				"Watch"
 		,'_addon_path_art': 		"art"
 		,'special.home.addons': 'special:'+os.sep+os.sep+'home'+os.sep+'addons'+os.sep
 		,'special.home': 				'special:'+os.sep+os.sep+'home'
@@ -33,6 +35,8 @@ def ps(x):
 		,'img_prev':						'http://kissanime.com/Content/images/previous.png'
 		,'img_az':							'http://kissanime.com/Content/images/logo.png'
 		,'img_search':					'http://kissanime.com/Content/images/read.png'
+		,'img_hot':							'http://kissanime.com/Content/images/hot.png'
+		,'img_updated':					'http://kissanime.com/Content/images/newupdate.png'
 		,'GENRES': 							['Action','Adventure','Cars','Cartoon','Comedy','Dementia','Demons','Drama','Ecchi','Fantasy','Game','Harem','Historical','Horror','Josei','Kids','Magic','Martial Arts','Mecha','Military','Movie','Music','Mystery','ONA','OVA','Parody','Police','Psychological','Romance','Samurai','School','Sci-Fi','Seinen','Shoujo','Shoujo Ai','Shounen','Shounen Ai','Slice of Life','Space','Special','Sports','Super Power','Supernatural','Thriller','Vampire','Yuri']
 		,'COUNTRIES': 					['Afghanistan','Albania','Algeria','Andorra','Angola','Argentina','Armenia','Aruba','Australia','Austria','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Bermuda','Bolivia','Bosnia and Herzegovina','Botswana','Brazil','Bulgaria','Cambodia','Cameroon','Canada','Chad','Chile','China','Colombia','Costa Rica','Croatia','Cuba','Cyprus','Czech Republic','Czechoslovakia','Democratic Republic of the Congo','Denmark','Dominican Republic','East Germany','Ecuador','Egypt','El Salvador','Estonia','Ethiopia','Federal Republic of Yugoslavia','Finland','France','Georgia','Germany','Ghana','Greece','Guatemala','Haiti','Honduras','Hong Kong','Hungary','Iceland','India','Indonesia','Iran','Ireland','Isle of Man','Israel','Italy','Jamaica','Japan','Kazakhstan','Kenya','Kuwait','Latvia','Lebanon','Liberia','Libya','Liechtenstein','Lithuania','Luxembourg','Malaysia','Maldives','Malta','Mexico','Moldova','Monaco','Mongolia','Morocco','Namibia','Nepal','Netherlands','Netherlands Antilles','New Zealand','Nicaragua','Nigeria','North Korea','Norway','Occupied Palestinian Territory','Pakistan','Palestine','Panama','Papua New Guinea','Paraguay','Peru','Philippines','Poland','Portugal','Puerto Rico','Qatar','Republic of Macedonia','Romania','Russia','Rwanda','Senegal','Serbia','Serbia and Montenegro','Singapore','Slovakia','Slovenia','South Africa','South Korea','Soviet Union','Spain','Sri Lanka','Sweden','Switzerland','Taiwan','Tajikistan','Tanzania','Thailand','Togo','Trinidad and Tobago','Tunisia','Turkey','U.S. Virgin Islands','UK','Ukraine','United Arab Emirates','United States Minor Outlying Islands','Uruguay','USA','Venezuela','Vietnam','West Germany','Yugoslavia','Zaire','Zambia','Zimbabwe']
 		,'default_art_ext': 		'.png'

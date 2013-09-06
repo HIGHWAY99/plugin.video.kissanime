@@ -1,3 +1,15 @@
+[B]Version 0.2.8[/B]
+- Some Slight changes using additional settings in config.py to make things easier to update in both kissanime and kissmanga addons.
+- Side-Note: I am looking into how simular KissManga.com is to KissAnime.com... browsing looks 
+- Backdrop/Fanart, Cover/Thumbnail, and some other metadata information setup  to be used when the User ENABLES the option in the Addon/Plugin Settings under Metadata.
+- Metahandler setup (Thanks to The_Silencer for some code from TheDareTV).
+- Metahandler import(s) moved from default.py to teh_tools.py.
+- Additional Changes Made for Anime Settings in Settings Window.
+- Favorites Empty fixed in Settings Window.
+- Changed made to the displaying of Anime Series Names with color-tagging special tags.
+- Favorites - Seems to be working fine.  I made a slight edit on the Displayed Names to do away with Year (and other such text) which is not included in this site's provided information.
+- Changed made to the displaying of Episode Names.
+
 [B]Version 0.2.7[/B]
 - Project still needs a lot of code clean up and some more work, but I'm going to go ahead and release this version for people to use since it can now play videos, and has numerous features and categories to browse.
 - Search - Feature added (Normal Search).
