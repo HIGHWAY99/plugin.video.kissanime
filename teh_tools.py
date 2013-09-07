@@ -1728,6 +1728,28 @@ def GRABMETA(name,types):
 	else: infoLabels={}
 	return infoLabels
 
+def GRABMETA_Y(name,types,year=None):
+	type = types
+	if year=='': year=None
+	EnableMeta = local.getSetting('Enable-Meta')
+	#
+	if year==None:
+		try: year=re.search('\s*\((\d\d\d\d)\)',name).group(1)
+		except: year=None
+	if year is not None: name=name.replace(' ('+year+')','').replace('('+year+')','')
+	#
+	if EnableMeta == 'true':
+		if 'Movie' in type:
+			### grab.get_meta(media_type, name, imdb_id='', tmdb_id='', year='', overlay=6)
+			meta = grab.get_meta('movie',name,'',None,year,overlay=6)
+			infoLabels = {'rating': meta['rating'],'duration': meta['duration'],'genre': meta['genre'],'mpaa':"rated %s"%meta['mpaa'],'plot': meta['plot'],'title': meta['title'],'writer': meta['writer'],'cover_url': meta['cover_url'],'director': meta['director'],'cast': meta['cast'],'backdrop_url': meta['backdrop_url'],'backdrop_url': meta['backdrop_url'],'tmdb_id': meta['tmdb_id'],'year': meta['year']}
+		elif 'tvshow' in type:
+			meta = grab.get_meta('tvshow',name,'','',year,overlay=6)
+			infoLabels = {'rating': meta['rating'],'genre': meta['genre'],'mpaa':"rated %s"%meta['mpaa'],'plot': meta['plot'],'title': meta['title'],'cover_url': meta['cover_url'],'cast': meta['cast'],'studio': meta['studio'],'banner_url': meta['banner_url'],'backdrop_url': meta['backdrop_url'],'status': meta['status']}
+	else: infoLabels=[]
+	return infoLabels
+
+
 
 ### ############################################################################################################
 ### ############################################################################################################

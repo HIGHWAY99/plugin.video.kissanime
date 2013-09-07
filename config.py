@@ -28,6 +28,9 @@ def ps(x):
 		,'common_word': 				"Anime"
 		,'common_word2': 				"Watch"
 		,'_addon_path_art': 		"art"
+		,'content_tvshows': 		"tvshows"
+		,'content_episodes': 		"episodes"
+		,'content_links': 			"list"
 		,'special.home.addons': 'special:'+os.sep+os.sep+'home'+os.sep+'addons'+os.sep
 		,'special.home': 				'special:'+os.sep+os.sep+'home'
 		,'img_kisslogo':				'http://kissanime.com/Content/images/logo.png'

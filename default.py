@@ -2,7 +2,7 @@
 ###	#	
 ### # Project: 			#		KissAnime.com - by The Highway 2013.
 ### # Author: 			#		The Highway
-### # Version:			#		v0.3.0
+### # Version:			#		v0.3.1
 ### # Description: 	#		http://www.KissAnime.com
 ###	#	
 ### ############################################################################################################
@@ -856,8 +856,59 @@ def listLinks(section, url, showtitle='', showyear=''): ### Menu for Listing Hos
 	except: contentURL=''
 	try: fTitle=re.compile('<meta\s*itemprop="contentURL"\s*content="http://.+?(&title=.*?)"\s*/*>').findall(html)[0]
 	except: fTitle=''
+	#try: embedURL=re.compile("var\s+embedCode\s*=\s*'(http://.+?)'").findall(html)[0]
+	#except: embedURL=''
+	#try: testURL=re.compile("'(http://.+?)'").findall(html); print 'testURL1'; print testURL
+	#except: testURL=''
+	#try: testURL=re.compile('"(http://.+?)"').findall(html); print 'testURL2'; print testURL
+	#except: testURL=''
+	#try: testURL=re.compile('\n.+?(http://.+?)\n', re.DOTALL).findall(html); print 'testURL3'; print testURL
+	#except: testURL=''
+	#try: fmtURLs=re.compile('(\d+)%7C(http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3d[0-9A-Za-z]+%26itag%3d(\d+)%26source%3d[0-9A-Za-z\-_]+%26cmo%3d[0-9A-Za-z\-_]+%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d\d+%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d[0-9A-Za-z]+\.[0-9A-Za-z]+%26key%3d[0-9A-Za-z]+)').findall(html)
+	#except: fmtURLs=''
+	# print 'testURL4'; print fmtURLs
+	#
+	#if (len(fmtURLs) > 0):
+	#	count=1; ItemCount=len(fmtURLs); #match=sorted(match, key=lambda item: (item[3],item[2],item[1]))
+	##	deb('No. of matches',str(ItemCount))
+	#	#print matches
+	#	MaxNoLinks=int(addst('linksmaxshown'))
+	#	try: mmNames=re.compile('(\d+)%2F(\d+x\d+)').findall(html)
+	#	except: mmNames=None
+	#	for mID1,mUrl,mID2 in fmtURLs:
+	#		mUrl=urllib.unquote_plus(mUrl)
+	#		#mUrl=unescape_(mUrl)
+	#		#deb('mUrl',mUrl)
+	#		#try: mName=re.compile(mID1+'%2F(\d+x\d+)').findall(html)[0]+'-'+mID2
+	#		#except: mName=''+mID1
+	#		try: mName=mID2+'-['+mmNames[int(count-1)][1]+']-'+mmNames[int(count-1)][0]
+	#		except: mName=''+mID1
+	#		#if   (mFileExt.lower()=='mkv'): img=art('mkv') #'http://convertmkvtomp4.info/images/mkv.png'
+	#		#elif (mFileExt.lower()=='mp4'): img=art('mp4') #'http://zamzar.files.wordpress.com/2013/03/mp4.png?w=480'
+	#		#elif (mFileExt.lower()=='flv'): img=art('flv') #'http://images.wikia.com/fileformats/images/a/ab/Icon_FLV.png'
+	#		contextMenuItems=[]; labs={}
+	#		#if (fTitle not in mUrl): mUrl+=fTitle
+	#		#if (fTitle not in mUrl): mUrl2=fTitle
+	#		#else: mUrl2=''+mUrl
+	#		pars={'img':pimg,'mode':'PlayVideo','url':mUrl,'title':mName,'studio':ptitle}
+	#		#pars2={'img':pimg,'mode':'PlayVideo','url':mUrl2,'title':mName,'studio':ptitle}
+	#		deb('gv redirector url',mUrl)
+	#		##pars2={'img':img,'mode':'Download','url':url,'title':mName,'studio':ptitle}
+	#		##contextMenuItems.append(('Download', 'XBMC.RunPlugin(%s)' % _addon.build_plugin_url(pars2)))
+	#		##contextMenuItems.append(('jDownloader', ps('cMI.jDownloader.addlink.url') % (urllib.quote_plus(url))))
+	#		labs['title']=''+mName #+'  (Testing)'
+	#		_addon.add_directory(pars,labs,img=img,fanart=fimg,is_folder=False,contextmenu_items=contextMenuItems,total_items=ItemCount)
+	#		#_addon.add_directory(pars2,labs,img=img,fanart=fimg,is_folder=False,contextmenu_items=contextMenuItems,total_items=ItemCount)
+	#		count=count+1
+	#if (len(embedURL) > 0):
+	#	deb('embedURL',embedURL)
+	#	contextMenuItems=[]; labs={}; labs['title']='[ Embed URL ]' +'  [I]<-- Play This One Only[/I]'
+	#	pars={'img':pimg,'mode':'PlayVideo','url':embedURL,'title':'Default URL','studio':ptitle}
+	#	_addon.add_directory(pars,labs,img=img,fanart=fimg,is_folder=False,contextmenu_items=contextMenuItems)
+	#
 	if (len(contentURL) > 0):
-		contextMenuItems=[]; labs={}; labs['title']='[ Default URL ]' +'  [I]<-- Play This One Only[/I]'
+		deb('contentURL',contentURL)
+		contextMenuItems=[]; labs={}; labs['title']='[ Default URL ]' #+'  [I]<-- Play This One[/I]' #
 		pars={'img':pimg,'mode':'PlayVideo','url':contentURL,'title':'Default URL','studio':ptitle}
 		_addon.add_directory(pars,labs,img=img,fanart=fimg,is_folder=False,contextmenu_items=contextMenuItems)
 	if (len(matches) > 0):
@@ -870,8 +921,8 @@ def listLinks(section, url, showtitle='', showyear=''): ### Menu for Listing Hos
 			elif (mFileExt.lower()=='mp4'): img=art('mp4') #'http://zamzar.files.wordpress.com/2013/03/mp4.png?w=480'
 			elif (mFileExt.lower()=='flv'): img=art('flv') #'http://images.wikia.com/fileformats/images/a/ab/Icon_FLV.png'
 			contextMenuItems=[]; labs={}
-			if (fTitle not in mUrl): mUrl+=fTitle
-			pars={'img':pimg,'mode':'PlayVideo','url':url,'title':mName,'studio':ptitle}
+			#if (fTitle not in mUrl): mUrl+=fTitle
+			pars={'img':pimg,'mode':'PlayVideo','url':mUrl,'title':mName,'studio':ptitle}
 			deb('gv redirector url',mUrl)
 			#pars2={'img':img,'mode':'Download','url':url,'title':mName,'studio':ptitle}
 			#contextMenuItems.append(('Download', 'XBMC.RunPlugin(%s)' % _addon.build_plugin_url(pars2)))
@@ -879,7 +930,7 @@ def listLinks(section, url, showtitle='', showyear=''): ### Menu for Listing Hos
 			labs['title']=''+mName #+'  (Testing)'
 			_addon.add_directory(pars,labs,img=img,fanart=fimg,is_folder=False,contextmenu_items=contextMenuItems,total_items=ItemCount)
 			count=count+1
-	set_view('list',addst('links-view')); eod()
+	set_view(ps('content_links'),addst('links-view')); eod()
 	### ################################################################
 
 
@@ -1219,7 +1270,7 @@ def listItems(section=_default_section_, url='', startPage='1', numOfPages='1', 
 			pars={'mode':'GetEpisodes','url':item_url,'img':img,'title':labs['title']}
 			_addon.add_directory(pars, labs, img=img, fanart=fimg, contextmenu_items=contextMenuItems, total_items=ItemCount)
 	else: deb('Error','no items found.')
-	set_view('tvshows',addst('anime-view')); eod(); return
+	set_view(ps('content_tvshows'),addst('anime-view')); eod(); return
 	################################################################################
 
 def Trailers_List(section, url, genre):
@@ -1586,13 +1637,25 @@ def listEpisodes(section, url, img='', season=''): #_param['img']
 		contextMenuItems=[]; labs={}; ep_url=_domain_url+ep_url
 		contextMenuItems.append((ps('cMI.showinfo.name'),ps('cMI.showinfo.url')))
 		#contextMenuItems.append(('Add - Library','XBMC.RunPlugin(%s?mode=%s&section=%s&title=%s&showtitle=%s&showyear=%s&url=%s&img=%s&season=%s&episode=%s&episodetitle=%s)' % ( sys.argv[0],'LibrarySaveEpisode',section, urllib.quote_plus(_param['title']), urllib.quote_plus(_param['showtitle']), urllib.quote_plus(_param['year']), urllib.quote_plus(ep_url), urllib.quote_plus(labs['thumbnail']), urllib.quote_plus(season_number), urllib.quote_plus(episode_number), urllib.quote_plus(episode_name) )))
-		labs['title']=ep_name.replace(' Episode',' [CR]Episode')
+		labs['title']=''+ep_name
+		if ('[CR]' not in labs['title']): labs['title']=labs['title'].replace(' The Movie',' [CR]The Movie')
+		if ('[CR]' not in labs['title']): labs['title']=labs['title'].replace(' Movie',' [CR]Movie')
+		if ('[CR]' not in labs['title']): labs['title']=labs['title'].replace(' Episode',' [CR]Episode')
+		if ('[CR]' not in labs['title']): labs['title']=labs['title'].replace(' OVA',' [CR]OVA')
+		if ('[CR]' not in labs['title']): labs['title']=labs['title'].replace(' _Special',' [CR]Special')
+		if ('[CR]' not in labs['title']): labs['title']=labs['title'].replace(' _Preview',' [CR]Preview')
 		if ('[CR]' in labs['title']): labs['title']=labs['title'].split('[CR]')[1]
+		labs['title']=labs['title']+cFL('  ['+cFL(ep_date.replace('/',cFL('/','pink')),'blue')+']','pink')
+		try: (labs['month'],labs['day'],labs['year'])=ep_date.split('/')
+		except: labs['month']=''; labs['day']; labs['year']
+		labs['plot']=cFL(ep_name,'red')
+		labs['plot']+=cFL('[CR]Date Added:  ['+cFL(ep_date.replace('/',cFL('/','pink')),'blue')+'][CR]','pink'); labs['Date']=ep_date.replace('/','-')
+		labs['premiered']=ep_date.replace('/','-')
 		deb('Episode Name',labs['title']); deb('episode thumbnail',img)
 		pars={'mode':'GetLinks','img':img,'url':ep_url,'title':ep_name}
 		_addon.add_directory(pars,labs,img=img,fanart=img,contextmenu_items=contextMenuItems,total_items=ItemCount)
 		#
-	set_view('episodes',addst('episode-view')); eod() #set_view('episodes',ps('setview.episodes')); eod()
+	set_view(ps('content_episodes'),addst('episode-view')); eod() #set_view('episodes',ps('setview.episodes')); eod()
 
 def listSeasons(section, url, img=''): #_param['img']
 	xbmcplugin.setContent(int(sys.argv[1]),'seasons'); WhereAmI('@ the Seasons List for TV Show -- url: %s' % url); html=net.http_GET(url).content

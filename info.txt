@@ -235,6 +235,100 @@ http://kissanime.com/RSS/Anime/[Folder Name for the Show]
 
 
 
+http://redirector.googlevideo.com/videoplayback?id=a4735c9cb7b4ae03&itag=37&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1381122721&sparams=id,itag,source,ip,ipbits,expire&signature=C2284481D242E82AA1EFF28D9501A260FC5F3636.990D8A765D2E355CF8BD500D6AFA754C12B105B8&key=lh1&title=Episode+001
+
+
+
+
+http://redirector.googlevideo.com/videoplayback?id=a4735c9cb7b4ae03&itag=37&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1381123118&sparams=id,itag,source,ip,ipbits,expire&signature=2694AC6FD116EFCD846AB7D6F804B91CB24F81DB.C1F7E1DE529DCF9163E68154BF41851304087850&key=lh1&title=Episode+001
+http://redirector.googlevideo.com/videoplayback?id=a4735c9cb7b4ae03&itag=18&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1381123118&sparams=id,itag,source,ip,ipbits,expire&signature=994CC9567B32F54E1332189A073C7F5E6E6088A2.B417C584D524A8F1D972760CCB1E11D1145C314C&key=lh1
+
+
+fmt_list=
+37
+%2F1920x1080
+%2C22
+%2F1280x720
+%2C35
+%2F854x480
+%2C34
+%2F640x360
+%2C18
+%2F640x360
+%2C5
+%2F426x240
+&fmt_stream_map=
+37%7Chttp%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d37%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381124176%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3dD1775CA95A9C83CBAE44C70108E857BF39288F10.76F400AEA34411D5674AA98EBFC7C243D9801D7%26key%3dlh1
+%2C
+22%7Chttp%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d22%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381124176%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3dDD090EF13C1C26C1495BFE9D1B42860DE508916A.AA6AA75B35D996F1E8ECF42ABCCE0A443941C3E7%26key%3dlh1
+%2C
+35%7Chttp%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d35%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381124176%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d3C8E46DAAC5304853FF6399419FB5718C7DB1A3F.55C26A08C7FA0E49A16ED23326F1AAB44E0AF489%26key%3dlh1
+%2C34%7Chttp%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d34%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381124176%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d567955B5D9C6FF0B92F1535324EC81A995EB1179.9BF60DFE1E3F482948E17AB4B6973E2D4C0E8668%26key%3dlh1
+%2C18%7Chttp%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d18%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381124176%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d34397943F4D9C0CC5ABAC8655A80DE4A107EE111.AEAF9D0AC01DFC3399D27420DD57EA3C8F41A69A%26key%3dlh1
+%2C5%7Chttp%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d5%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381124176%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d3F118C8B390085AF4B6C2A15B2F3BBCBC4414A31.1F68B9947B667BA9FAEF1718B7F05D5BA2EB4CC5%26key%3dlh1
+&video_id=picasacid&fs=1&hl=en&autoplay=1&ps=picasaweb&playerapiid=uniquePlayerId&t=1&vq=large&auth_timeout=86400000000" style="width: 820px; height: 530px; display:none"/>
+
+[(u'37', u'http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d37%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3dBB1BE54560BB7D6EF8E9AAFDF010769BBA541F69.9E3890E802282B042C094E63C945842B36DB4C22%26key%3dlh1', u'37'), (u'22', u'http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d22%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d69EFD15D1B0766A553C022C7C83F4400DA1C4E41.22316B5E58B53F7ECB34CCC0ED56EA5FB2C9F112%26key%3dlh1', u'22'), (u'35', u'http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d35%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d40E4B9A315F4BB8D30A6BD5075450409A7D25D1B.47B3AE24613E3B13B66DE6C98EE7586B287D4F21%26key%3dlh1', u'35'), (u'34', u'http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d34%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d4B8E1EE75CD58CBC7E46445D64573DFDF1398886.8DA0B31A71900881AA913D72D9E6DDE4C585CC4B%26key%3dlh1', u'34'), (u'18', u'http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d18%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3dCDD2E6B768C8B6064CB3164EF0D9AA2E1609700.BD4A6822192206A590A2DD0B6B50E3EFB3FD924D%26key%3dlh1', u'18'), (u'5', u'http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d5%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3dE3F47B21CACAA052826EBDC9873EA3F24CFF249.D372339E4AE848CC69F7F59E474799EC8C813B2%26key%3dlh1', u'5'), (u'37', u'http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d37%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3dBB1BE54560BB7D6EF8E9AAFDF010769BBA541F69.9E3890E802282B042C094E63C945842B36DB4C22%26key%3dlh1', u'37'), (u'22', u'http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d22%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d69EFD15D1B0766A553C022C7C83F4400DA1C4E41.22316B5E58B53F7ECB34CCC0ED56EA5FB2C9F112%26key%3dlh1', u'22'), (u'35', u'http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d35%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d40E4B9A315F4BB8D30A6BD5075450409A7D25D1B.47B3AE24613E3B13B66DE6C98EE7586B287D4F21%26key%3dlh1', u'35'), (u'34', u'http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d34%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d4B8E1EE75CD58CBC7E46445D64573DFDF1398886.8DA0B31A71900881AA913D72D9E6DDE4C585CC4B%26key%3dlh1', u'34'), (u'18', u'http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d18%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3dCDD2E6B768C8B6064CB3164EF0D9AA2E1609700.BD4A6822192206A590A2DD0B6B50E3EFB3FD924D%26key%3dlh1', u'18'), (u'5', u'http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d5%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3dE3F47B21CACAA052826EBDC9873EA3F24CFF249.D372339E4AE848CC69F7F59E474799EC8C813B2%26key%3dlh1', u'5')]
+
+[(u'37
+', u'
+http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d37%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3dBB1BE54560BB7D6EF8E9AAFDF010769BBA541F69.9E3890E802282B042C094E63C945842B36DB4C22%26key%3dlh1
+', u'
+37'), (u'22
+', u'
+http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d22%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d69EFD15D1B0766A553C022C7C83F4400DA1C4E41.22316B5E58B53F7ECB34CCC0ED56EA5FB2C9F112%26key%3dlh1
+', u'
+22'), (u'35
+', u'
+http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d35%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d40E4B9A315F4BB8D30A6BD5075450409A7D25D1B.47B3AE24613E3B13B66DE6C98EE7586B287D4F21%26key%3dlh1
+', u'
+35'), (u'34
+', u'
+http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d34%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d4B8E1EE75CD58CBC7E46445D64573DFDF1398886.8DA0B31A71900881AA913D72D9E6DDE4C585CC4B%26key%3dlh1
+', u'
+34'), (u'18
+', u'
+http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d18%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3dCDD2E6B768C8B6064CB3164EF0D9AA2E1609700.BD4A6822192206A590A2DD0B6B50E3EFB3FD924D%26key%3dlh1
+', u'
+18'), (u'5
+', u'
+http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d5%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3dE3F47B21CACAA052826EBDC9873EA3F24CFF249.D372339E4AE848CC69F7F59E474799EC8C813B2%26key%3dlh1
+', u'
+5'), (u'37
+', u'
+http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d37%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3dBB1BE54560BB7D6EF8E9AAFDF010769BBA541F69.9E3890E802282B042C094E63C945842B36DB4C22%26key%3dlh1
+', u'
+37'), (u'22
+', u'
+http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d22%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d69EFD15D1B0766A553C022C7C83F4400DA1C4E41.22316B5E58B53F7ECB34CCC0ED56EA5FB2C9F112%26key%3dlh1
+', u'
+22'), (u'35
+', u'
+http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d35%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d40E4B9A315F4BB8D30A6BD5075450409A7D25D1B.47B3AE24613E3B13B66DE6C98EE7586B287D4F21%26key%3dlh1
+', u'
+35'), (u'34
+', u'
+http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d34%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3d4B8E1EE75CD58CBC7E46445D64573DFDF1398886.8DA0B31A71900881AA913D72D9E6DDE4C585CC4B%26key%3dlh1
+', u'
+34'), (u'18
+', u'
+http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d18%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3dCDD2E6B768C8B6064CB3164EF0D9AA2E1609700.BD4A6822192206A590A2DD0B6B50E3EFB3FD924D%26key%3dlh1
+', u'
+18'), (u'5
+', u'
+http%3a%2f%2fredirector.googlevideo.com%2fvideoplayback%3fid%3da4735c9cb7b4ae03%26itag%3d5%26source%3dpicasa%26cmo%3dsensitive_content%3dyes%26ip%3d0.0.0.0%26ipbits%3d0%26expire%3d1381126274%26sparams%3did%252Citag%252Csource%252Cip%252Cipbits%252Cexpire%26signature%3dE3F47B21CACAA052826EBDC9873EA3F24CFF249.D372339E4AE848CC69F7F59E474799EC8C813B2%26key%3dlh1
+', u'
+5')]
+
+
+http://redirector.googlevideo.com/videoplayback?id=a4735c9cb7b4ae03&itag=37&source=picasa&cmo=sensitive_content=yes&ip=0.0.0.0&ipbits=0&expire=1381126274&sparams=id,itag,source,ip,ipbits,expire&signature=BB1BE54560BB7D6EF8E9AAFDF010769BBA541F69.9E3890E802282B042C094E63C945842B36DB4C22&key=lh1&title=Episode+001
+
+
+
+
+
+
+
 
 
 
