@@ -1,11 +1,22 @@
 <settings>
+	<category label="Main-Menu">
+		<setting visible="true" id="enable-autoplay-lvp" type="bool" label="Display Last Video [Played]" default="true" />
+		<setting visible="true" id="enable-autoplay-lvap" type="bool" label="Display Last Video [AutoPlay]" default="true" />
+		<setting visible="true" id="enable-autoplay-lsv" type="bool" label="Display Last Title Visited" default="true" />
+		<setting id="oldmenu" 		type="bool" label="Display Old Items on the Main Menu" default="false" visible="true"/>
+		<setting id="label-empty-favorites" 		type="bool" label="Show Labels in List: Empty Favorites" default="false" visible="true"/>
+	</category>
 	<category label="General">
+		<setting id="genre-thumbs" type="labelenum" label="Genre Style" values="icon.png|sitelogo|next|prev|hot|updated|skin.primal|skin.tangency|1ch.PrimeWire|1ch.Glossy_Black|kiss.png|genre.jpg|turtle.jpg|mkv.png|mp4.png|flv.png" default="icon.png"/>
+		<setting id="az-thumbs" type="labelenum" label="ALL|#|A-Z Style" values="icon.png|sitelogo|next|prev|hot|updated|kiss.png|genre.jpg|turtle.jpg|mkv.png|mp4.png|flv.png|chromatix.lower|chromatix.upper|dooffy.lower|dooffy.upper|balloon-green|balloon-orange|balloon-grey|red-orb|ariil.letter|hydrattz.pink|hydrattz.blue|hydrattz.gold|hydrattz.red|hydrattz.black|hydrattz.grey|hydrattz.lg|hydrattz.dg|hydrattz.violet|hydrattz.orange|mattahan" default="icon.png"/>
 		<setting id="pages"    type="labelenum" label="Number of Pages" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|25|30|35|40|45|50|55|60|70|80|90|99|100"             default="1"/>
 		<setting id="linksmaxshown" type="labelenum" label="Number of Links (Host Menu)" values="1|2|3|4|5|10|15|20|25|30|35|40|45|50|55|60|70|80|90|99|100|150|200|250|300|350|400|450|500|550|600|700|800|900|1000|1500|2000|3000|9000|9999"             default="9999"/>
 		<setting id="debug-enable" 	type="bool" label="Enable Debugging to File" default="false" visible="true"/>
 		<setting id="debug-show" 		type="bool" label="Enable Debugging to Notice(s)" default="false" visible="true"/>
-		<setting id="label-empty-favorites" 		type="bool" label="Show Labels in List: Empty Favorites" default="false" visible="true"/>
-		<setting id="oldmenu" 		type="bool" label="Display Old Items on the Main Menu" default="false" visible="true"/>
+	</category>
+	<category label="AutoPlay">
+		<setting visible="true" id="enable-autoplay" type="bool" label="Enable AutoPlay [Default Url]" default="false" />
+		<setting id="autoplay-select"    type="labelenum" label="AutoPlay Method" values="Default|Next|Last"             default="Default"/>
 	</category>
 	<category label="Auto-View">
 		<setting id="auto-view" type="bool"   label="Enable Automatic View" default="false"/>
@@ -25,9 +36,12 @@
 	</category>
 	<category label="Anime">
 		<setting visible="true" type="text" default=""  id="fav.movies.1.name" label="Favorites 1: Name" />
-		<setting visible="true" type="text" default="2" id="fav.movies.2.name" label="Favorites 2: Name" />
-		<setting visible="true" type="text" default="3" id="fav.movies.3.name" label="Favorites 3: Name" />
-		<setting visible="true" type="text" default="4" id="fav.movies.4.name" label="Favorites 4: Name" />
+		<setting visible="true" id="enable-fav-movies-2" type="bool" label="Enable Favorites 2" default="true" />
+		<setting visible="true" type="text" default="2" id="fav.movies.2.name" label="Favorites 2: Name" enable="!eq(-1,false)" />
+		<setting visible="true" id="enable-fav-movies-3" type="bool" label="Enable Favorites 3" default="true" />
+		<setting visible="true" type="text" default="3" id="fav.movies.3.name" label="Favorites 3: Name" enable="!eq(-1,false)" />
+		<setting visible="true" id="enable-fav-movies-4" type="bool" label="Enable Favorites 4" default="true" />
+		<setting visible="true" type="text" default="4" id="fav.movies.4.name" label="Favorites 4: Name" enable="!eq(-1,false)" />
 		<setting visible="true" id="movies-favorites-clear-enable" type="bool"   label="  \/  ( Dummy Proofing )" default="false"/>
 		<setting visible="true" label="Clear Favorites"   type="action" 	enable="!eq(-1,false)" action="RunPlugin(plugin://plugin.video.kissanime/default.py?mode=FavoritesEmpty&secction=&subfav=)"/>
 		<setting visible="true" label="Clear Favorites 2" type="action" 	enable="!eq(-2,false)" action="RunPlugin(plugin://plugin.video.kissanime/default.py?mode=FavoritesEmpty&secction=&subfav=2)"/>

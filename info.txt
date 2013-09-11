@@ -326,6 +326,542 @@ http://redirector.googlevideo.com/videoplayback?id=a4735c9cb7b4ae03&itag=37&sour
 
 
 
+http://icons.iconarchive.com/icons/sirubico/movie-genre/256/Action-icon.png
+http://icons.iconarchive.com/icons/sirubico/movie-genre/256/SciFi-2-icon.png
+
+
+
+
+def Menu_BrowseByGenre2(section=_default_section_):
+	url=''; WhereAmI('@ the Genre Menu')#print 'Browse by genres screen'
+	browsebyImg=checkImgLocal(art('genre','.jpg'))
+	ItemCount=len(GENRES)*4 # , total_items=ItemCount
+	for genre in GENRES:
+		img=''; imgName=genre #; pre='http://icons.iconarchive.com/icons/sirubico/movie-genre/128/'
+		if (img==''): img=checkImgLocal(os.path.join(ps('special.home'),'addons','skin.primal','extras','moviegenresposter',imgName+'.jpg'))
+		if (img==''): img=checkImgLocal(os.path.join(ps('special.home'),'addons','skin.tangency','extras','moviegenresposter',imgName+'.jpg'))
+		if (img==''): img=checkImgLocal(os.path.join(ps('special.home'),'addons','plugin.video.1channel','art','themes','PrimeWire',imgName+'.png'))
+		if (img==''): img=checkImgLocal(os.path.join(ps('special.home'),'addons','plugin.video.1channel','art','themes','Glossy_Black',imgName+'.png'))
+		if (img=='') and (browsebyImg is not ''): img=browsebyImg
+		if (img==''): img=_artSun
+		oo=[{'tu':'','tt':'Sort by alphabet'},{'tu':'/MostPopular','tt':'Sort by popularity'},{'tu':'/LatestUpdate','tt':'Latest update'},{'tu':'/Newest','tt':'New anime'}]
+		for o in oo:
+			url=_domain_url+'/Genre/'+genre.replace(' ','-')+o['tu']
+			_addon.add_directory({'mode': 'GetTitles','url': url,'genre': genre,'bygenre': genre,'pageno': '1','pagecount': addst('pages')}, {'title':  genre+'  ['+cFL(o['tt'],ps('cFL_color2'))+']'},img=img,fanart=_artFanart, total_items=ItemCount)
+	set_view('list',addst('default-view')); eod()
+
+def Menu_BrowseByAZ(section=_default_section_,url='http://kissanime.com/AnimeList'):
+	url=''; WhereAmI('@ the Genre Menu')#print 'Browse by genres screen'
+	browsebyImg=checkImgLocal(art('genre','.jpg'))
+	Gs=['All','0','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+	ItemCount=len(Gs)*4 # , total_items=ItemCount
+	img=ps('img_az'); 
+	for genre in Gs:
+		#print genre
+		oo=[{'tu':'','tt':'Sort by alphabet'},{'tu':'/MostPopular','tt':'Sort by popularity'},{'tu':'/LatestUpdate','tt':'Latest update'},{'tu':'/Newest','tt':'New anime'}]
+		for o in oo:
+			print o
+			if (genre=='All'): url+=url+''+o['tu']
+			else: url+=url+''+o['tu']+'?c='+(genre.replace(' ','-'))
+			pars={'mode': 'GetTitles','url': url,'pageno': '1','pagecount': addst('pages')}
+			labs={'title':  genre+'  ['+cFL(o['tt'],ps('cFL_color2'))+']'}
+			_addon.add_directory(pars,labs,img=img,fanart=_artFanart,total_items=ItemCount)
+	set_view('list',addst('default-view')); eod()
+
+def listLinks_old(section, url, showtitle='', showyear=''): ### Menu for Listing Hosters (Host Sites of the actual Videos)
+	WhereAmI('@ the Link List: %s' % url); sources=[]; listitem=xbmcgui.ListItem()
+	if (url==''): return
+	try: html=net.http_GET(url).content
+	except: html=''
+	if (html==''): return
+	try: html=html.encode("ascii", "ignore")
+	except: t=''
+	#if (_debugging==True): print html
+	###( , re.MULTILINE | re.IGNORECASE | re.DOTALL)
+	if  ( section == 'tv'): ## TV Show ## Title (Year) - Info
+		match=re.compile(ps('LLinks.compile.show_episode.info'), re.MULTILINE | re.IGNORECASE | re.DOTALL).findall(html)[0] ### <title>Watch The Walking Dead Online for Free - Prey - S03E14 - 3x14 - SolarMovie</title>
+		if (_debugging==True): print match
+		if (match==None):  return
+		ShowYear=_param['year'] #ShowYear=showyear
+		ShowTitle=match[0].strip(); EpisodeTitle=match[1].strip(); Season=match[2].strip(); Episode=match[3].strip()
+		ShowTitle=HTMLParser.HTMLParser().unescape(ShowTitle); ShowTitle=ParseDescription(ShowTitle); ShowTitle=ShowTitle.encode('ascii', 'ignore'); ShowTitle=ShowTitle.decode('iso-8859-1'); EpisodeTitle=HTMLParser.HTMLParser().unescape(EpisodeTitle); EpisodeTitle=ParseDescription(EpisodeTitle); EpisodeTitle=EpisodeTitle.encode('ascii', 'ignore'); EpisodeTitle=EpisodeTitle.decode('iso-8859-1')
+		if ('<p id="plot_' in html):
+			ShowPlot=(re.compile(ps('LLinks.compile.show.plot'), re.MULTILINE | re.IGNORECASE | re.DOTALL).findall(html)[0]).strip(); ShowPlot=HTMLParser.HTMLParser().unescape(ShowPlot); ShowPlot=ParseDescription(ShowPlot); ShowPlot=ShowPlot.encode('ascii', 'ignore'); ShowPlot=ShowPlot.decode('iso-8859-1')
+		else: ShowPlot=''
+		match=re.compile(ps('LLinks.compile.imdb.url_id'), re.MULTILINE | re.IGNORECASE | re.DOTALL).findall(html)[0]
+		if (_debugging==True): print match
+		(IMDbURL,IMDbID)=match; IMDbURL=IMDbURL.strip(); IMDbID=IMDbID.strip(); My_infoLabels={ "Studio": ShowTitle+'  ('+ShowYear+'):  '+Season+'x'+Episode+' - '+EpisodeTitle, "Title": ShowTitle, "ShowTitle": ShowTitle, "Year": ShowYear, "Plot": ShowPlot, 'Season': Season, 'Episode': Episode, 'EpisodeTitle': EpisodeTitle, 'IMDbURL': IMDbURL, 'IMDbID': IMDbID, 'IMDb': IMDbID }; listitem.setInfo(type="Video", infoLabels=My_infoLabels )
+	else:	#################### Movie ## Title (Year) - Info
+		match=re.compile(ps('LLinks.compile.show.title_year')).findall(html)[0]
+		if (_debugging==True): print match
+		if (match==None): return
+		ShowYear=match[1].strip(); ShowTitle=match[0].strip(); ShowTitle=HTMLParser.HTMLParser().unescape(ShowTitle); ShowTitle=ParseDescription(ShowTitle); ShowTitle=ShowTitle.encode('ascii', 'ignore'); ShowTitle=ShowTitle.decode('iso-8859-1'); ShowPlot=(re.compile(ps('LLinks.compile.show.plot'), re.MULTILINE | re.IGNORECASE | re.DOTALL).findall(html)[0]).strip(); ShowPlot=HTMLParser.HTMLParser().unescape(ShowPlot); ShowPlot=ParseDescription(ShowPlot); ShowPlot=ShowPlot.encode('ascii', 'ignore'); ShowPlot=ShowPlot.decode('iso-8859-1'); match=re.compile(ps('LLinks.compile.imdb.url_id'), re.MULTILINE | re.IGNORECASE | re.DOTALL).findall(html)[0]
+		if (_debugging==True): print match
+		(IMDbURL,IMDbID)=match; IMDbURL=IMDbURL.strip(); IMDbID=IMDbID.strip(); My_infoLabels={ "Studio": ShowTitle+'  ('+ShowYear+')', "Title": ShowTitle, "ShowTitle": ShowTitle, "Year": ShowYear, "Plot": ShowPlot, 'IMDbURL': IMDbURL, 'IMDbID': IMDbID, 'IMDb': IMDbID }; listitem.setInfo(type="Video", infoLabels=My_infoLabels )
+	### Both -Movies- and -TV Shows- ### Hosters
+	###( , re.MULTILINE | re.IGNORECASE | re.DOTALL)
+	match=re.compile(ps('LLinks.compile.hosters'), re.MULTILINE | re.DOTALL).findall(html)
+	if (len(match) > 0):
+		count=1
+		match=sorted(match, key=lambda item: (item[3],item[2],item[1]))
+		ItemCount=len(match) # , total_items=ItemCount
+		#print match
+		for url, host, quality, age in match:
+			host=host.strip(); quality=quality.strip(); name=str(count)+". "+host+' - [[B]'+quality+'[/B]] - ([I]'+age+'[/I])'
+			#if urlresolver.HostedMediaFile(host=host, media_id='xxx'):
+			if (host is not ''):
+				img=ps('Hosters.icon.url')+host; My_infoLabels['quality']=quality; My_infoLabels['age']=age; My_infoLabels['host']=host
+				pars={'section': section, 'img': _param['img'], 'mode': 'PlayVideo', 'url': url, 'quality': quality, 'age': age, 'infoLabels': My_infoLabels, 'listitem': listitem}
+				contextMenuItems=[]; 
+				#contextMenuItems.append(('Show Information', 			'XBMC.Action(Info)'))
+				pars2=pars; pars2['mode']='Download'
+				pars2['studio']=My_infoLabels['Studio']
+				pars2['ShowTitle']=My_infoLabels['ShowTitle']
+				pars2['Title']=My_infoLabels['Title']
+				#deb('plugin url for download',_addon.build_plugin_url(pars2))
+				contextMenuItems.append(('Download', 'XBMC.RunPlugin(%s)' % _addon.build_plugin_url(pars2)))
+				#contextMenuItems.append(('jDownloader', ps('cMI.jDownloader.addlink.url') % (urllib.quote_plus(url))))
+				pars['mode']='PlayVideo'
+				_addon.add_directory(pars, {'title':  name}, img=img, is_folder=False, contextmenu_items=contextMenuItems, total_items=ItemCount); count=count+1
+		set_view('list',addst('links-view')); eod()
+	else: set_view('list',addst('links-view')); eod(); return
+	### ################################################################
+
+
+def listLatestSearches(section, url):
+	url='http://www.solarmovie.so/'; WhereAmI('@ List:  Latest Searches -- url: %s' % url)
+	html=net.http_GET(url).content; html=messupText(html,_html=True,_ende=True,_a=False,Slashes=False); deb('html length',str(len(html)))
+	s='<li>[\n]\s+<a href="(/(movie|tv)/search/.+?/)">[\n]\s+(.+?)</a>[\n]\s+</li>' #'<a href="(.+?)">\n\s+(.+?) (\(\d\d\d\d\))</a>'
+	matches=re.compile(s).findall(html)
+	if (not matches): return;
+	#print matches
+	ItemCount=len(matches) # , total_items=ItemCount
+	#print matches
+	for path, zone, name in matches:
+		title=iFL(cFL(zone.upper()+':  ',ps('cFL_color2')))+cFL(name,ps('cFL_color')); path=_domain_url+path; deb('Adding Item - Title',title); deb('Adding Item - Url',path); labs={'title': title }
+		if   ('tv'   ==zone): ### TV
+			pars={'section': ps('section.tv'   ), 'mode': 'GetTitles', 'url': path, 'title': name }
+			_addon.add_directory(pars, labs, img=_art150, fanart=_artFanart, total_items=ItemCount)
+		elif ('movie'==zone): ### Movie
+			pars={'section': ps('section.movie'), 'mode': 'GetTitles', 'url': path, 'title': name }
+			_addon.add_directory(pars, labs, img=_art150, fanart=_artFanart, total_items=ItemCount)
+	set_view('list',addst('default-view')); eod()
+	
+def Site__PrivacyPolicy():
+	WhereAmI('@ SolarMovie.so:  Privacy Policy -- url: %s' % 'http://www.solarmovie.so/privacy-policy.html'); 
+	HeaderMessage='[COLOR cornflowerblue]Privacy Policy[/COLOR]'
+	message ='[B]'+cFL('Privacy Policy',ps('cFL_color'))+'[/B][CR][CR]'
+	message+='Please read the following terms and conditions carefully and pay attention to the fact that by '
+	message+='entering this site you completely agree to its terms and conditions. SolarMovie site (& plugin) reserves '
+	message+='the right to change these terms and conditions without any prior notice. To get the changes '
+	message+='check this policy on a regular base.[CR][CR]'
+	message+='This Site (nor this plugin) shall have no responsibilities or liabilities for the content, data, opinions,	'
+	message+='statements and links this site contains.[CR][CR]'
+	message+='YOU HEREBY FURTHER AFFIRM AND WARRANT THAT YOU ARE CURRENTLY OVER THE AGE OF EIGHTEEN ([B]18[/B]) '
+	message+='YEARS (TWENTYONE ([B]21[/B]) IN PLACES WHERE EIGHTEEN ([B]18[/B]) YEARS IS NOT THE AGE OF MAJORITY) '
+	message+='AND ARE CAPABLE OF LAWFULLY ENTERING INTO AND EXECUTING THE TERMS OF THIS AGREEMENT.[CR][CR]'
+	message+='SolarMovie uses the right of "Free Speech".[CR][CR]'
+	message+='This site works in accordance with copyright law. Persons who reproduce or distribute any works '
+	message+='without a copyright owner\'s consent, may be in violation of this law.[CR][CR]'
+	message+='We do not make warranties that this site (nor this plugin) will operate error free. If you see an error, please '
+	message+='contact the webmaster (or author of the plugin if it has to do with the plugin, however please make sure to check that the site is up and running first.).[CR][CR]'
+	message+='By entering this site (and/or this plugin) you agree to hold the owners, employees, advertisers of [B]SolarMovie[/B]	(both the site and this plugin)'
+	message+='free from any and all liability.[CR][CR]'
+	message+='Your membership may not be shared or transferred.[CR][CR]'
+	message+='If you have any questions please feel free to contact us (of the site).[CR][CR]'
+	#########
+	message+='[CR][CR][COLOR grey][I]This has been copied from solarmovie.so on 2013-08-11, with the appropriate text added for this plugin.  Please check out the current '
+	message+='Privacy Policy for the site @ http://www.solarmovie.so/privacy-policy.html for any changes.[/I][/COLOR][CR][CR][CR][CR]'
+	message+=cFL('Thank you for taking the time to read this.',ps('cFL_color3'))
+	message=cFL(message,ps('cFL_color5'))
+	print message
+	TextBox2().load_string(message,HeaderMessage)
+	#eod()
+
+def Site__TermsOfService():
+	WhereAmI('@ SolarMovie.so:  Terms of Service -- url: %s' % 'http://www.solarmovie.so/terms.html'); 
+	HeaderMessage='[COLOR cornflowerblue]Terms of Service[/COLOR]'
+	message ='[B]'+cFL('Terms of Service',ps('cFL_color'))+'[/B][CR][CR]'
+	#########
+	message+='[B]'+cFL('Using SolarMovie',ps('cFL_color2'))+'[/B][CR][CR]'
+	message+='When you enter SolarMovie (site and/or plugin) you automatically agree to all our rules and regulations![CR][CR][CR]'
+	#########
+	message+='[B]'+cFL('Hosting and Legal Issues',ps('cFL_color2'))+'[/B][CR][CR]'
+	message+='SolarMovie is not hosting or uploading any copyrighted content or media of any kind;  '
+	message+='we only store links to third-party websites that carry their own legal responsibility '
+	message+='for their content.  If you want to remove content from these websites - please contact '
+	message+='these media hosters directly.[CR][CR]'
+	message+='SolarMovie is working according to DMCA, so if you need to remove any content from the '
+	message+='website, you can contact our copyright issues department.  '
+	message+='(http://www.solarmovie.so/contacts.html)[CR][CR][CR]'
+	#########
+	message+='[B]'+cFL('Responsibilities',ps('cFL_color2'))+'[/B][CR][CR]'
+	message+='SolarMovie (site & plugin) is not responsible for anything that might happen on third-party websites.  '
+	message+='We are not responsible for the accuracy, compliance, copyright, legality, decency, or '
+	message+='any other aspect of the content of other linked sites.  Please, be careful when you '
+	message+='install, download or submit any personal or CC information![CR][CR]'
+	message+='SolarMovie (site & plugin) holds no responsibility for any legal or copyright issues that may occur due '
+	message+='to the use of SolarMovie (site and/or plugin).  Please check local copyright laws or the rules of your '
+	message+='provider to avoid legal problems.[CR][CR]'
+	message+='P.S.[CR]As a website we strongly recommend our users to support the makers of the movies '
+	message+='and buy the shows and movies that they like![CR][CR][CR]'
+	#########
+	message+='[CR][CR][COLOR grey][I]This has been copied from solarmovie.so on 2013-08-11, with the appropriate text added for this plugin.  Please check out the current '
+	message+='Terms of Service for the site @ http://www.solarmovie.so/terms.html for any changes.[/I][/COLOR][CR][CR][CR][CR]'
+	message+=cFL('Thank you for taking the time to read this.',ps('cFL_color3'))
+	message=cFL(message,ps('cFL_color5'))
+	print message
+	TextBox2().load_string(message,HeaderMessage)
+	#eod()
+
+def News_LatestThreads(url,headermessage):
+	WhereAmI('@ News:  Latest Threads -- url: %s' % url); 
+	message=''; html=net.http_GET(url).content
+	if (html=='') or (html=='none') or (html==None): deb('Html','is empty.' ); return
+	html=messupText(html,_html=True,_ende=True,_a=False,Slashes=False)
+	ThreadSection=html
+	deb('html length',str(len(html)))
+	try: ThreadSection=ThreadSection.split('<h3>Latest Threads</h3>')[1]
+	except: t=''
+	try: ThreadSection=ThreadSection.split('<div id="footer">')[0]
+	except: t=''
+	try: ThreadSection=ThreadSection.split('<iframe')[0]
+	except: t=''
+	ThreadSection=ThreadSection.replace('<div class="commentPreview ">','').strip()
+	ThreadSection=ThreadSection.replace('<a href="/tv/','[COLOR black] ').strip()
+	ThreadSection=ThreadSection.replace('<a href="/watch-','[COLOR black] ').strip()
+	ThreadSection=ThreadSection.replace('/" class="commentPreviewTitle">','[/COLOR][COLOR '+ps('cFL_color')+']').strip()
+	ThreadSection=ThreadSection.replace('.html" class="commentPreviewTitle">','[/COLOR][COLOR '+ps('cFL_color')+']').strip()
+	ThreadSection=ThreadSection.replace('class="commentPreviewTitle">','[/COLOR][COLOR '+ps('cFL_color')+']').strip()
+	ThreadSection=ThreadSection.replace('<span class="commentPreviewInfo">  by','[/COLOR][COLOR pink] by ').strip()
+	ThreadSection=ThreadSection.replace('<a href="/profile/','[/COLOR][COLOR black] ').strip()
+	ThreadSection=ThreadSection.replace('/">','[/COLOR][COLOR '+ps('cFL_color2')+'] By ').strip()
+	ThreadSection=ThreadSection.replace('/"','[/COLOR][COLOR '+ps('cFL_color2')+']').strip()
+	ThreadSection=ThreadSection.replace('</a>,','[/COLOR], [COLOR '+ps('cFL_color3')+']').strip()
+	ThreadSection=ThreadSection.replace('</span>','[/COLOR]').strip()
+	ThreadSection=ThreadSection.replace('<span class="commentPreviewBody">','[COLOR '+ps('cFL_color6')+']').strip()
+	ThreadSection=ThreadSection.replace('</div>','').strip()
+	ThreadSection=ThreadSection.replace('<div class="commentPreview oddComment">','').strip()
+	ThreadSection=ThreadSection.replace('</a>','[COLOR black]').strip()
+	ThreadSection=ThreadSection.replace('<span class="commentPrewviewInfo">>','[/COLOR]').strip()
+	ThreadSection=ThreadSection.replace('\n\n','\n').strip()
+	ThreadSection=ThreadSection.replace('\n','').strip()
+	ThreadSection=ThreadSection.replace('\r','').strip()
+	ThreadSection=ThreadSection.replace('     ',' ').strip()
+	ThreadSection=ThreadSection.replace('    ',' ').strip()
+	ThreadSection=ThreadSection.replace('   ',' ').strip()
+	ThreadSection=ThreadSection.replace('  ',' ').strip()
+	ThreadSection=ThreadSection.replace('  ',' ').strip()
+	matches=re.compile('(\[COLOR\sblack\].+?\[/COLOR\])', re.DOTALL).findall(ThreadSection)
+	for match in matches:
+		ThreadSection=ThreadSection.replace(match,'').strip()
+	ThreadSection=ThreadSection.replace(')  ',') ').strip()
+	ThreadSection=ThreadSection.replace(') [/COLOR][CR][COLOR '+ps('cFL_color')+']',') [/COLOR][COLOR '+ps('cFL_color')+']').strip()
+	ThreadSection=ThreadSection.replace('[/COLOR][COLOR '+ps('cFL_color')+']','[/COLOR][CR][CR][COLOR '+ps('cFL_color')+']').strip()
+	ThreadSection=ThreadSection.replace('[/COLOR] [COLOR '+ps('cFL_color')+']','[/COLOR][CR][CR][COLOR '+ps('cFL_color')+']').strip()
+	ThreadSection=ThreadSection.replace('[/COLOR]  [COLOR '+ps('cFL_color')+']','[/COLOR][CR][CR][COLOR '+ps('cFL_color')+']').strip()
+	ThreadSection=ThreadSection.replace('[/COLOR]   [COLOR '+ps('cFL_color')+']','[/COLOR][CR][CR][COLOR '+ps('cFL_color')+']').strip()
+	ThreadSection=ThreadSection.replace(' [COLOR '+ps('cFL_color6')+']',' [CR][COLOR '+ps('cFL_color6')+']').strip()
+	ThreadSection=ThreadSection.replace('[COLOR '+ps('cFL_color')+'] ','[COLOR '+ps('cFL_color')+']').strip()
+	#ThreadSection=ThreadSection.replace(' [COLOR '+ps('cFL_color')+']',' [CR][CR][COLOR '+ps('cFL_color')+']').strip()
+	#ThreadSection=ThreadSection.replace('','').strip()
+	#ThreadSection=ThreadSection.replace('','').strip()
+	#ThreadSection=ThreadSection.replace('','').strip()
+	_addon.resolve_url(url)
+	TextBox2().load_string(ThreadSection,headermessage)
+	#_addon.resolve_url(url)
+	######
+
+def UsersShowUploads(section, url):
+	WhereAmI('@ Users:  Show Uploads -- url: %s' % url)
+	html=net.http_GET(url).content; html=messupText(html,_html=True,_ende=True,_a=False,Slashes=False); deb('html length',str(len(html)))
+	s='<a href="(.+?)">\n\s+(.+?) (\(\d\d\d\d\))</a>' #s='<th colspan="\d+" class="commentSummaryName">[\n]\s+<a href="(/.+?)">[\n]\s+(.+?)\s(\(\d\d\d\d\))</a>[\n]\s+</th>'
+	matches=re.compile(s).findall(html)
+	if (not matches): return;
+	#print matches
+	ItemCount=len(matches) # , total_items=ItemCount
+	#matches=sorted(matches, key=lambda item: item[1],reverse=False)
+	#matches=sorted(matches, key=lambda item: item[2],reverse=True)
+	for path, name, year in matches:
+		if   ('/tv/' in path) and ('/season-' in path) and ('/episode-' in path): ### TV Episode
+			pars={'section': ps('section.tv'   ), 'mode': 'GetLinks', 'url': _domain_url+path, 'title': name, 'year': year }
+			showtitle,season,episode,eptitle=re.compile('__(.+?)\ss(\d+)e(\d+)\s(.+?)__', re.DOTALL).findall('__'+name+'__')[0]
+			title=' - '+cFL(eptitle,ps('cFL_color4'))
+			title='  '+cFL(season+cFL('x',ps('cFL_color4'))+episode,ps('cFL_color5'))+title
+			title=cFL(showtitle+'  ('+cFL(year,ps('cFL_color2'))+')'+title,ps('cFL_color'))
+			labs={'title': title }; deb('Adding TV Episode - Title',title); deb('Adding TV - Url',pars['url'])
+			_addon.add_directory(pars, labs, img=_art150, fanart=_artFanart, total_items=ItemCount)
+		elif ('/watch-' in path) and ('.html' in path): ### Movie
+			pars={'section': ps('section.movie'), 'mode': 'GetLinks', 'url': _domain_url+path, 'title': name, 'year': year }
+			title=cFL(name+'  ('+cFL(year,ps('cFL_color2'))+')',ps('cFL_color'))
+			labs={'title': title }; deb('Adding Movie - Title',title); deb('Adding Movie - Url',pars['url'])
+			_addon.add_directory(pars, labs, img=_art150, fanart=_artFanart, total_items=ItemCount)
+	set_view('videos',addst('default-view')); eod()
+
+def UsersShowFavorites(section, url):
+	WhereAmI('@ Users:  Show Favorites -- url: %s' % url)
+	html=net.http_GET(url).content
+	html=messupText(html,_html=True,_ende=True,_a=False,Slashes=False)
+	deb('html length',str(len(html)))
+	#matches=re.compile('<a class="userPic nohover">[\n]\s+<img src="(http.+?\.\D+)" /></a>[\n][\n]\s+<dl\sclass="ratingBoxStatus">[\n]\s+<dt>[\n]\s+<a\shref="(/profile/[0-9A-Za-z]+/)">([0-9A-Za-z]+)</a>,[\n]\s+<span\sclass="commentDate">joined:\s(.+?\sago)</span>[\n]\s+</dt>[\n]\s+</dl>[\n]\s+<div class="carmaRatingGroup">[\n]\s+<div class="ratingCell">(.+?)</div>', re.DOTALL).findall(html)
+	if (not matches): return
+	#for img, path, person, joined, rating in matches:
+	#	pars={'section':section, 'mode': 'UsersChooseSection', 'url': _domain_url+path }
+	#	title=cFL(person+'  ('+cFL(joined,ps('cFL_color2'))+')'+'  ['+cFL(rating,ps('cFL_color3'))+']',ps('cFL_color'))
+	#	labs={'title': title }
+	#	_addon.add_directory(pars, labs, img=img, fanart=_artFanart)
+	set_view('videos',addst('default-view')); eod()
+
+
+#def UsersShowWatchList(section, url):
+#	WhereAmI('@ Users:  Show Watch List -- url: %s' % url)
+#	html=net.http_GET(url).content
+#	html=messupText(html,_html=True,_ende=True,_a=False,Slashes=False)
+#	deb('html length',str(len(html)))
+#	#matches=re.compile('<a class="userPic nohover">[\n]\s+<img src="(http.+?\.\D+)" /></a>[\n][\n]\s+<dl\sclass="ratingBoxStatus">[\n]\s+<dt>[\n]\s+<a\shref="(/profile/[0-9A-Za-z]+/)">([0-9A-Za-z]+)</a>,[\n]\s+<span\sclass="commentDate">joined:\s(.+?\sago)</span>[\n]\s+</dt>[\n]\s+</dl>[\n]\s+<div class="carmaRatingGroup">[\n]\s+<div class="ratingCell">(.+?)</div>', re.DOTALL).findall(html)
+#	if (not matches): return
+#	#for img, path, person, joined, rating in matches:
+#	#	pars={'section':section, 'mode': 'UsersChooseSection', 'url': _domain_url+path }
+#	#	title=cFL(person+'  ('+cFL(joined,ps('cFL_color2'))+')'+'  ['+cFL(rating,ps('cFL_color3'))+']',ps('cFL_color'))
+#	#	labs={'title': title }
+#	#	_addon.add_directory(pars, labs, img=img, fanart=_artFanart)
+#	set_view('videos',addst('default-view')); eod()
+
+
+def UsersShowPersonInfo(mode, section, url):
+	WhereAmI('@ Users:  Show Profile Account Information -- url: %s' % url)
+	pars={'mode':mode,'section':section,'url':url}
+	html=net.http_GET(url).content
+	html=messupText(html,_html=True,_ende=True,_a=False,Slashes=False)
+	deb('html length',str(len(html)))
+	try: 		img=re.compile('<img\ssrc="(http://static\.solarmovie\.so/uploads/users/[0-9A-Za-z]+\.png)"\s/>').findall(html)[0]
+	except:
+		try: 		img=re.compile('<a\sclass="userPic\snohover\s+verifUpic">[\n]\s*<img\ssrc="(.+?)"\s/>').findall(html)[0]
+		except:	img=ps('img.userdefault')
+	try: user_UserName=re.compile('<h2 class="noCapitalize">[\n]\s*[\n]\s*([A-Za-z0-9\-\_]+)').findall(html)[0]
+	except: user_UserName='[Unknown]'
+	if (user_UserName): 
+		_addon.add_directory(pars, { 'title': cFL(user_UserName,ps('cFL_color'))+'\'s Profile' }, img=img, fanart=_artFanart)
+	try: user_Position=re.compile('<span class="position">(\D+)</span>').findall(html)[0]
+	except: t=''
+	if (user_Position): 
+		_addon.add_directory(pars, { 'title': 'Position:  '+cFL(user_Position,ps('cFL_color2')) }, img=img, fanart=_artFanart)
+	try: user_Registered=re.compile('<td><label>Registered:</label></td>[\n]\s+<td>(\D+\s\d+,\s\d\d\d\d,\s\d+:\d+\s\D\D)</td>').findall(html)[0]
+	except: t=''
+	if (user_Registered): 
+		_addon.add_directory(pars, { 'title': 'Registered:  '+user_Registered }, img=img, fanart=_artFanart)
+	try: user_Comments=re.compile('<td><label>Comments:</label></td>[\n]\s+<td>(\d+)</td>').findall(html)[0]
+	except: t=''
+	if (user_Comments): 
+		_addon.add_directory(pars, { 'title': 'Comments:  '+user_Comments }, img=img, fanart=_artFanart)
+	try: user_ProfileViews=re.compile('<td><label>Profile Views:</label></td>[\n]\s+<td>(\d+)</td>').findall(html)[0]
+	except: t=''
+	if (user_ProfileViews): 
+		_addon.add_directory(pars, { 'title': 'Profile Views:  '+user_ProfileViews }, img=img, fanart=_artFanart)
+	try: user_LinksActive=re.compile('<td><label>Links Active:</label></td>[\n]\s+<td>(\d+)</td>').findall(html)[0]
+	except: t=''
+	if (user_LinksActive): 
+		_addon.add_directory(pars, { 'title': 'Links Active:  '+user_LinksActive }, img=img, fanart=_artFanart)
+	try: user_ForumThreads=re.compile('<td><label>Forum Threads:</label></td>[\n]\s+<td>[\n]\s+<a href="/forum/search/login/.+?/">(\d+)</a>[\n]\s+</td>').findall(html)[0]
+	except: user_ForumThreads='0'
+	if (user_ForumThreads): 
+		_addon.add_directory(pars, { 'title': 'Forum Threads:  '+user_ForumThreads }, img=img, fanart=_artFanart)
+	try: user_ForumPosts=re.compile('<td><label>Forum Posts:</label></td>[\n]\s+<td>(\d+)</td>').findall(html)[0]
+	except: t=''
+	if (user_ForumPosts): 
+		_addon.add_directory(pars, { 'title': 'Forum Posts:  '+user_ForumPosts }, img=img, fanart=_artFanart)
+	#matches=re.compile('').findall(html)[0]
+	#if (matches): 
+	#	_addon.add_directory(pars, { 'title': ':  '++'' }, img=img, fanart=_artFanart)
+	#
+	set_view('list',addst('default-view')); eod()
+
+def UsersChooseSection(section, url):
+	WhereAmI('@ Users:  Choose Area -- url: %s' % url)
+	_addon.add_directory({'section':section, 'mode': 'UsersShowProfileAccountInfo',   'url': url+'' 						}, {'title': 'Account' 		}, img=_artSun, fanart=_artFanart)
+	#_addon.add_directory({'section':section, 'mode': 'UsersShowProfileBlogs',   'url': url+'blogs/' 			}, {'title': 'Blogs' 			}, img=_artSun, fanart=_artFanart)
+	##_addon.add_directory({'section':section, 							'mode': 'UsersShowFavorites', 'url': url+'favorites/' 	}, {'title': 'Favorites' 							}, img=_artSun, fanart=_artFanart) ### Needs Testing
+	_addon.add_directory({'section':section, 							'mode': 'UsersShowUploads', 'url': url+'favorites/' 	}, {'title': 'Favorites' 							}, img=_artSun, fanart=_artFanart) ### Needs Testing
+	_addon.add_directory({'section':ps('section.movie'), 	'mode': 'GetTitles', 					'url': url+'watchlist/' 	}, {'title': 'Watch List (Movies)' 		}, img=_artSun, fanart=_artFanart) ### Tested: Works
+	_addon.add_directory({'section':ps('section.tv'), 		'mode': 'GetTitles', 					'url': url+'watchlist/' 	}, {'title': 'Watch List (TV Shows)'	}, img=_artSun, fanart=_artFanart) ### Needs Testing
+	_addon.add_directory({'section':section, 							'mode': 'UsersShowUploads',   'url': url+'uploads/' 		}, {'title': 'Uploads' 								}, img=_artSun, fanart=_artFanart) ### Needs Testing
+	set_view('list',addst('default-view')); eod()
+
+def UsersList(section, url):
+	WhereAmI('@ Users:  List -- url: %s' % url) 
+	html=net.http_GET(url).content
+	html=messupText(html,_html=True,_ende=True,_a=False,Slashes=False)
+	deb('html length',str(len(html)))
+	matches=re.compile('<a class="userPic nohover">[\n]\s+<img src="(http.+?\.\D+)" /></a>[\n][\n]\s+<dl\sclass="ratingBoxStatus">[\n]\s+<dt>[\n]\s+<a\shref="(/profile/[0-9A-Za-z]+/)">([0-9A-Za-z]+)</a>,[\n]\s+<span\sclass="commentDate">joined:\s(.+?\sago)</span>[\n]\s+</dt>[\n]\s+</dl>[\n]\s+<div class="carmaRatingGroup">[\n]\s+<div class="ratingCell">(.+?)</div>', re.DOTALL).findall(html)
+	if (not matches): return
+	try:		nextpage=re.compile('<li class="next"><a href="(http.+?solarmovie\.so/\D+/.+?page=\d+)"></a></li>', re.DOTALL).findall(html)[0]
+	except:	nextpage=''
+	if (nextpage is not ''): _addon.add_directory({ 'section':section, 'mode': 'listUsers', 'url': nextpage }, {'title': ps('LI.nextpage.name')}, img=art('icon-next'), fanart=_artFanart)
+	ItemCount=len(matches) # , total_items=ItemCount
+	for img, path, person, joined, rating in matches:
+		pars={'section':section, 'mode': 'UsersChooseSection', 'url': _domain_url+path }
+		title=cFL(person+'  ('+cFL(joined,ps('cFL_color2'))+')'+'  ['+cFL(rating,ps('cFL_color3'))+']',ps('cFL_color'))
+		labs={'title': title }
+		_addon.add_directory(pars, labs, img=img, fanart=_artFanart, total_items=ItemCount)
+	set_view('list',addst('default-view')); eod()
+
+def Trailers_List(section, url, genre):
+	if (url==''): return
+	WhereAmI('@ the Item List -- url: %s' % url)
+	html=net.http_GET(url).content ### html=getURL(url)
+	#try: Trailers=re.compile('<div class="movieListSingleFilm">[\n]\s+<a href="(/watch-.+?-\d+.html)"><img width="\d+"[\n]\s+src="(http://static.solarmovie.so/images/movies/[0-9]+_\d+x\d+.jpg)"[\n]\s+class="cover" alt="" /></a>[\n]\s+<h2>[\n]\s+<a href="/watch-.+?-\d+.html">(.+?)</a>', re.DOTALL).findall(html)
+	#try: Trailers=re.compile('<div class="movieListSingleFilm">', re.DOTALL).findall(html)
+	#except: Trailers=''
+	#print html
+	if ('<div class="movieListDetailed">' not in html): eod(); return
+	html=html.split('<div class="movieListDetailed">')[1]
+	if ('class="js-tab"' in html): html=html.split('class="js-tab"')[0]
+	Trailers=html.split('<div class="movieListSingleFilm">')
+	#print Trailers
+	ItemCount=len(Trailers) # , total_items=ItemCount
+	for Trailer in Trailers:
+		if ('<img' in Trailer):
+			Trailer=Trailer.strip()
+			contextMenuItems=[]; labs={}; pars={}; pars['section']=section; pars['genre']=genre; labs['fanart']=pars['fanart']=_artFanart; labs['plot']=''
+			try: labs['thumbnail']=pars['thumbnail']=labs['img']=pars['img']=re.compile('><img width="\d+"[\n]\s+src="(http://static.solarmovie.so/images/movies/[0-9]+_150x220.jpg)"[\n]\s+class="cover" alt="" /></a>', re.DOTALL).findall(Trailer)[0].strip()
+			except: labs['thumbnail']=pars['thumbnail']=labs['img']=pars['img']=''
+			try: pars['title']=re.compile('<h2>[\n]\s+<a href="/watch-.+?-\d+.html">(.+?)</a>', re.DOTALL).findall(Trailer)[0].strip()
+			except: pars['title']=''
+			try: labs['year']=pars['year']=re.compile('<h2>[\n]\s+<a href="/watch-.+?-(\d+).html">', re.DOTALL).findall(Trailer)[0].strip()
+			except: labs['year']=pars['year']=''
+			try: labs['peopleWaitForIt']=re.compile('<span class="peopleWaitForIt">[\n]\s+(\d+) people wait for it', re.DOTALL).findall(Trailer)[0].strip()
+			except: labs['peopleWaitForIt']=''
+			try: labs['Director']=re.compile('<span class="movieListDirector">[\n]\s+by[\n]\s+(.*?)\s+</span>', re.DOTALL).findall(Trailer)[0].strip()
+			except: labs['Director']=''
+			try: labs['plot']=labs['Description']=labs['PlotOutline']=re.compile('<p>(.+?)</p>', re.DOTALL).findall(Trailer)[0].strip()
+			except: labs['plot']=labs['Description']=labs['PlotOutline']=''
+			try: pars['url']=re.compile('<h2>[\n]\s+<a href="(/watch-.+?-\d+.html)"', re.DOTALL).findall(Trailer)[0].strip()
+			except: pars['url']=''
+			if (pars['url'] is not ''): pars['url']=_domain_url+pars['url']
+			try: labs['Premiere']=labs['DateReleased']=labs['DateAired']=labs['Aired']=labs['date']=re.compile('<span class="timeToRelease">[\n]\s+in \d+ \D+;[\n]\s+<span>(\D+ \d+, \d\d\d\d)</span>[\n]\s+</span>', re.DOTALL).findall(Trailer)[0].strip()
+			except: labs['date']=''
+			try: labs['ToBeReleasedIn']=re.compile('<span class="timeToRelease">[\n]\s+in (\d+ \D+);[\n]\s+<span>\D+ \d+, \d\d\d\d</span>[\n]\s+</span>', re.DOTALL).findall(Trailer)[0].strip()
+			except: labs['ToBeReleasedIn']=''
+			#try: labs['title']=re.compile('', re.DOTALL).findall(Trailer)[0].strip()
+			#except: labs['title']=''
+			#labs['url']=_domain_url+tUrl
+			#labs['title']=tTitle
+			labs['Director']=labs['Director'].strip(); labs['peopleWaitForIt']=labs['peopleWaitForIt'].strip()
+			if (labs['date'] is not ''): 
+				labs['plot']+='[CR]Premiere:  '+labs['date']
+				if (labs['ToBeReleasedIn'] is not ''): labs['plot']+='  (in '+labs['ToBeReleasedIn']+')'
+			if (labs['Director'] is not ''): labs['plot']+='[CR]Director:  '+labs['Director']
+			if (labs['peopleWaitForIt'] is not ''): labs['plot']+='[CR]People waiting for it:  '+labs['peopleWaitForIt']
+			labs['title']=pars['title']
+			if (pars['year'] is not ''): labs['title']+='  ('+cFL(pars['year'],ps('cFL_color2'))+')'
+			if (labs['ToBeReleasedIn'] is not ''): labs['title']+='  {'+cFL('in '+labs['ToBeReleasedIn'],ps('cFL_color6'))+'}'
+			#
+			labs['title']=cFL(labs['title'],ps('cFL_color'))
+			contextMenuItems.append((ps('cMI.showinfo.name'),ps('cMI.showinfo.url')))
+			deb('Trailer',labs['title']+' | '+labs['img']+' | '+pars['url'])
+			pars['mode']='PlayTrailer'
+			if (pars['url'] is not ''): _addon.add_directory(pars, labs, img=labs['img'], fanart=labs['fanart'], contextmenu_items=contextMenuItems, is_folder=False, total_items=ItemCount)
+			#
+		#
+	#if (Trailers==''): eod(); return
+	#for tUrl, tImg, tTitle in Trailers:
+	#	contextMenuItems=[]; labs={}; pars={}
+	#	pars['section']=section; pars['genre']=genre; pars['url']=_domain_url+tUrl; pars['title']=tTitle; pars['thumbnail']=pars['img']=tImg
+	#	labs['title']=tTitle; labs['thumbnail']=labs['img']=tImg; labs['fanart']=_artFanart
+	#	contextMenuItems.append((ps('cMI.showinfo.name'),ps('cMI.showinfo.url')))
+	#	deb('Movie Name',labs['title']); deb('Movie thumbnail',labs['thumbnail'])
+	#	pars['mode']='PlayTrailer'
+	#	_addon.add_directory(pars, labs, img=labs['img'], fanart=labs['fanart'], contextmenu_items=contextMenuItems)
+	#	#
+	set_view('movies',addst('movies-view')); eod()
+
+def Select_Sort_OLD(url='',AZ='all'):
+	if (url==''): url=_domain_url+'/'+ps('common_word')+'List'
+	WhereAmI('@ the Select Sort Menu'); AZ=AZ.lower();
+	option_list=['Alphabetical','Most Popular','Latest Update','New '+ps('common_word')]
+	path_list  =['','/MostPopular','/LatestUpdate','/Newest']
+	if (AZ=='') or (AZ=='all'): AZTag=''
+	elif ('?' in url): AZTag='&c='+AZ
+	else: AZTag='?c='+AZ
+	r=askSelection(option_list,'Select Sort Method')
+	if   (r==0): _DoGetItems(url+path_list[r]+AZTag)
+	elif (r== -1): eod(); return
+	else: _DoGetItems(url+path_list[r]+AZTag)
+
+def Select_AZ(url=''):
+	if (url==''): url=_domain_url+'/'+ps('common_word')+'List'
+	option_list=['All','0','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+	WhereAmI('@ the Select AZ Menu')
+	#r=askSelection(option_list,'Select A-Z, 0(#0-9) or All')
+	#if   (r==0): Select_Sort(url,AZ=option_list[r].lower()) #Select_Sort(url,AZ='')
+	#elif (r== -1): eod(); return
+	#else: Select_Sort(url,AZ=option_list[r].lower())
+	###
+	pn='1'; pc=addst('pages'); ItemCount=len(option_list)
+	for oo in option_list:
+		if (oo=='All'): ooo=''
+		else: ooo=oo.lower()
+		_addon.add_directory({'mode':'SelectSort','url':url,'title':ooo,'pageno':pn,'pagecount':pc},{'title':oo},img=_artIcon,fanart=_artFanart,total_items=ItemCount)
+	set_view('list',addst('default-view')); eod()
+
+def Menu_BrowseByGenre(section=_default_section_):
+	url=''; WhereAmI('@ the Genre Menu')#print 'Browse by genres screen'
+	browsebyImg=checkImgLocal(art('genre','.jpg'))
+	ItemCount=len(GENRES)*4 # , total_items=ItemCount
+	for genre in GENRES:
+		img=''; imgName=genre #; pre='http://icons.iconarchive.com/icons/sirubico/movie-genre/128/'
+		if (img==''): img=checkImgLocal(os.path.join(ps('special.home'),'addons','skin.primal','extras','moviegenresposter',imgName+'.jpg'))
+		if (img==''): img=checkImgLocal(os.path.join(ps('special.home'),'addons','skin.tangency','extras','moviegenresposter',imgName+'.jpg'))
+		if (img==''): img=checkImgLocal(os.path.join(ps('special.home'),'addons','plugin.video.1channel','art','themes','PrimeWire',imgName+'.png'))
+		if (img==''): img=checkImgLocal(os.path.join(ps('special.home'),'addons','plugin.video.1channel','art','themes','Glossy_Black',imgName+'.png'))
+		if (img=='') and (browsebyImg is not ''): img=browsebyImg
+		if (img==''): img=_artSun
+		#Select_Sort(_domain_url+'/Genre/'+genre.replace(' ','-'),AZ='')
+		_addon.add_directory({'mode': 'SelectSort','url': _domain_url+'/Genre/'+genre.replace(' ','-')},{'title':genre},img=img,fanart=_artFanart,total_items=ItemCount)
+		#oo=[{'tu':'','tt':'Sort by alphabet'},{'tu':'/MostPopular','tt':'Sort by popularity'},{'tu':'/LatestUpdate','tt':'Latest update'},{'tu':'/Newest','tt':'New anime'}]
+		#for o in oo:
+		#	url=_domain_url+'/Genre/'+genre.replace(' ','-')+o['tu']
+		#	_addon.add_directory({'mode': 'GetTitles','url': url,'genre': genre,'bygenre': genre,'pageno': '1','pagecount': addst('pages')}, {'title':  genre+'  ['+cFL(o['tt'],ps('cFL_color2'))+']'},img=img,fanart=_artFanart, total_items=ItemCount)
+	set_view('list',addst('default-view')); eod()
+
+
+
+
+
+		deb('LastAutoPlayItemName',addst("LastAutoPlayItemName"))
+		if (play.isPlayingVideo()==False):
+			_addon.addon.setSetting(id="LastAutoPlayItemUrl", value=contentURL)
+			_addon.addon.setSetting(id="LastAutoPlayItemName", value=ptitle)
+
+	_addon.addon.setSetting(id="LastShowListedURL", value=url)
+	_addon.addon.setSetting(id="LastShowListedIMG", value=img)
+
+	_addon.addon.setSetting(id="LastVideoPlayItemUrl", value=url)
+	_addon.addon.setSetting(id="LastVideoPlayItemName", value=title)
+	_addon.addon.setSetting(id="LastVideoPlayItemImg", value=img)
+	_addon.addon.setSetting(id="LastVideoPlayItemStudio", value=studio)
+
+
+
+
+
+
+http://888toto.deviantart.com/art/Manga-and-comic-Fonts-261380252
+http://colorburned.com/guest-article-20-insanely-cool-manga-fonts/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
