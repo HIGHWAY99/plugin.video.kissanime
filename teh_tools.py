@@ -17,7 +17,8 @@ import xbmc,xbmcplugin,xbmcgui,xbmcaddon,xbmcvfs
 try: import requests ### <import addon="script.module.requests" version="1.1.0"/> ### 
 except: t=''				 ### See https://github.com/kennethreitz/requests ### 
 import urllib,urllib2,re,os,sys,htmllib,string,StringIO,logging,random,array,time,datetime
-import urlresolver
+try: import urlresolver
+except: pass
 import copy
 try: import json
 except ImportError: import simplejson as json
@@ -26,7 +27,9 @@ except: import storageserverdummy as StorageServer
 cache = StorageServer.StorageServer(plugin_id)
 #import SimpleDownloader as downloader
 from t0mm0.common.net import Net as net
+from t0mm0.common.net import Net
 from t0mm0.common.addon import Addon
+net2=Net(); 
 ### ############################################################################################################
 ### ############################################################################################################
 ### ### Common Imports ### 
@@ -1733,7 +1736,7 @@ def GRABMETA(name,types):
 def GRABMETA_Y(name,types,year=None):
 	type = types
 	if year=='': year=None
-	EnableMeta = local.getSetting('Enable-Meta')
+	EnableMeta=tfalse(addst("enableMeta"))
 	#
 	if year==None:
 		try: year=re.search('\s*\((\d\d\d\d)\)',name).group(1)
@@ -1756,6 +1759,24 @@ def GRABMETA_Y(name,types,year=None):
 ### ############################################################################################################
 ### ############################################################################################################
 
+def nURL(url,method='get',form_data={},headers={},html='',proxy='',User_Agent='',cookie_file='',load_cookie=False,save_cookie=False):
+	if url=='': return ''
+	dhtml=''+html
+	if len(User_Agent) > 0: net.set_user_agent(User_Agent)
+	else: net2.set_user_agent(ps('User-Agent'))
+	if len(proxy) > 9: net2.set_proxy(proxy)
+	if (len(cookie_file) > 0) and (load_cookie==True): net2.set_cookies(cookie_file)
+	if   method.lower()=='get':
+		try: html=net2.http_GET(url,headers=headers).content
+		except: html=dhtml
+	elif method.lower()=='post':
+		try: html=net2.http_POST(url,form_data=form_data,headers=headers).content #,compression=False
+		except: html=dhtml
+	elif method.lower()=='head':
+		try: html=net2.http_HEAD(url,headers=headers).content
+		except: html=dhtml
+	if (len(html) > 0) and (len(cookie_file) > 0) and (save_cookie==True): net2.save_cookies(cookie_file)
+	return html
 
 
 ### ############################################################################################################

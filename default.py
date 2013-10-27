@@ -2,7 +2,7 @@
 ###	#	
 ### # Project: 			#		KissAnime.com - by The Highway 2013.
 ### # Author: 			#		The Highway
-### # Version:			#		v0.3.2
+### # Version:			#		v0.3.4
 ### # Description: 	#		http://www.KissAnime.com
 ###	#	
 ### ############################################################################################################
@@ -15,7 +15,8 @@ except: t=''				 ### See https://github.com/kennethreitz/requests ###
 
 
 import urllib,urllib2,re,os,sys,htmllib,string,StringIO,logging,random,array,time,datetime
-import urlresolver
+try: import urlresolver
+except: pass
 import copy
 ###
 #import cookielib
@@ -135,7 +136,6 @@ def PlayVideo(url,title='',studio='',img='',showtitle='',plot='',autoplay=False)
 	infoLabels={"Studio":studio,"ShowTitle":showtitle,"Title":title,"Plot":plot}
 	li=xbmcgui.ListItem(title,iconImage=img,thumbnailImage=img)
 	li.setInfo(type="Video", infoLabels=infoLabels ); li.setProperty('IsPlayable', 'true')
-	if (autoplay==False): eod()
 	#xbmc.Player().stop()
 	try: _addon.resolve_url(url)
 	except: t=''
@@ -144,11 +144,44 @@ def PlayVideo(url,title='',studio='',img='',showtitle='',plot='',autoplay=False)
 	_addon.addon.setSetting(id="LastVideoPlayItemName", value=title)
 	_addon.addon.setSetting(id="LastVideoPlayItemImg", value=img)
 	_addon.addon.setSetting(id="LastVideoPlayItemStudio", value=studio)
-	try: play.play(url, li); xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
+	#xbmcplugin.setResolvedUrl(int(sys.argv[1]), True)
+	if (autoplay==False): eod()
+	#try: html=nURL(url,method='head',headers={'Referer':_domain_url})
+	#except: html=''
+	#deb('length of html',str(len(html)))
+	#from teh_tools import _SaveFile
+	#_SaveFile(xbmc.translatePath(os.path.join(_addonPath,'resources','testing.txt')),html)
+	#try: html=nURL('http://s10.histats.com/js15_gif.js',method='head',headers={'Referer':_domain_url})
+	#except: html=''
+	#xbmc.getIPAddress()
+	#MyIP=xbmc.getIPAddress()
+	MyIP="199.0.197.160"
+	#MyIP="0.0.0.0"
+	#deb('my ip',xbmc.getIPAddress())
+	url2=url
+	#url2=url2.replace('&ip=0.0.0.0&','&ip='+MyIP+'&')
+	#url2=url2.replace('&cmo=sensitive_content=yes&','&')
+	#url2=url2.replace('&sparams=id,itag,source,ip,ipbits,expire&','&sparams=expire,id,ip,ipbits,itag,source&')
+	##url2=url2.replace('&itag=5&','&itag=34&')
+	#url2=url2.replace('&key=lh1&','&key=cms1&')
+	##url2+='&cpn='
+	#url2+='&cms_redirect=yes'
+	##url2+='&ms=nxu'
+	##url2+='&mt='
+	##url2+='&mv=m'
+	##url2='http://redirector.googlevideo.com/videoplayback?id=f7b436d64b869da8&itag=34&source=picasa&ip=199.0.197.160&ipbits=0&expire=1385481949&sparams=expire,id,ip,ipbits,itag,source&signature=3155D80C58FF4E1C35F46C66957FF4625495D36E.52DED4EDC5079C8FFAA8AA04754F9347808D0B8B&key=cms1'
+	##url2='http://redirector.googlevideo.com/videoplayback?id=2f676cc6a678c32e&itag=5&source=picasa&ip=199.0.197.160&ipbits=0&expire=1385483906&sparams=expire,id,ip,ipbits,itag,source&signature=12A862B470AFF570F006AB2AC81DA24A3FCEECFB.4BB4AE0D52D543E7054211500A12B1A34F11272E&key=lh1'
+	##url2='http://redirector.googlevideo.com/videoplayback?id=2f676cc6a678c32e&itag=5&source=picasa&ip=199.0.197.160&ipbits=0&expire=1385483906&sparams=expire,id,ip,ipbits,itag,source&signature=12A862B470AFF570F006AB2AC81DA24A3FCEECFB.4BB4AE0D52D543E7054211500A12B1A34F11272E&key=cms1'
+	deb('url2',url2)
+	
+	try: play.play(url2, li); 
+	#try: play.play(url, li); 
+	except: t=''
+	try: xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
 	except: t=''
 	#xbmcplugin.setResolvedUrl(int(sys.argv[1]), True)
-	try: _addon.resolve_url(url)
-	except: t=''
+	#try: _addon.resolve_url(url)
+	#except: t=''
 	#xbmc.sleep(7000)
 
 def PlayLibrary(section, url, showtitle='', showyear=''): ### Menu for Listing Hosters (Host Sites of the actual Videos)
@@ -543,17 +576,28 @@ def mdGetSplitFindGroup(html,ifTag='', parseTag='',startTag='',endTag=''):
 def listLinks(section, url, showtitle='', showyear=''): ### Menu for Listing Hosters (Host Sites of the actual Videos)
 	WhereAmI('@ the Link List: %s' % url); sources=[]; listitem=xbmcgui.ListItem()
 	if (url==''): return
-	try: html=net.http_GET(url).content
+	#try: html=nURL(url)
+	try: html=nURL(url,headers={'Referer':_domain_url})
+	#try: html=net.http_GET(url).content
 	except: html=''
+	deb('length of html',str(len(html)))
 	if (html==''): return
 	try: html=html.encode("ascii", "ignore")
 	except: t=''
 	html=messupText(html,True,True,True,False)
+	s='<img id="a'+'d'+'Check\d" src="(http://.+?.com/.*?.png\?id=\d+)"/>'
+	_mts=re.compile(s, re.DOTALL).findall(html)
+	for mts2 in _mts:
+		try:
+			t=nURL(mts2,headers={'Referer':url})
+		except: pass
 	img=_param['img']
 	if (img==''): img=re.compile('<meta\s*itemprop="thumbnailUrl"\s*content="(http://.+?\.jpg)"').findall(html)[0].replace(' ','%20')
 	pimg=''+img; fimg=''+img; ptitle=_param['title']
 	s='<a\s*\n*\s*href="(http://redirector.googlevideo.com/videoplayback.+?)"\s*\n*\s*>((\d+)x(\d+)\.([0-9A-Za-z]+))</a>'
+	#s="%7C(http.+?redirector.googlevideo.com.+?%3fid%3d([A-Za-z0-9]+)%26itag%3d(((\d+)))%.+?)%7C"
 	matches=re.compile(s, re.DOTALL).findall(html)
+	debob(matches)
 	try: contentURL=re.compile('<meta\s*itemprop="contentURL"\s*content="(http://.+?)"\s*/*>').findall(html)[0]
 	except: contentURL=''
 	try: fTitle=re.compile('<meta\s*itemprop="contentURL"\s*content="http://.+?(&title=.*?)"\s*/*>').findall(html)[0]
@@ -654,6 +698,7 @@ def listLinks(section, url, showtitle='', showyear=''): ### Menu for Listing Hos
 			else: myNote('A Video is currently playing.','Try stopping the current video first.')
 			return
 		for mUrl,mName,mWidth,mHeight,mFileExt in matches:
+			#mUrl=urllib.unquote_plus(mUrl).replace('%2C',','); deb('unquoted url',mUrl)
 			if   (mFileExt.lower()=='mkv'): img=art('mkv') #'http://convertmkvtomp4.info/images/mkv.png'
 			elif (mFileExt.lower()=='mp4'): img=art('mp4') #'http://zamzar.files.wordpress.com/2013/03/mp4.png?w=480'
 			elif (mFileExt.lower()=='flv'): img=art('flv') #'http://images.wikia.com/fileformats/images/a/ab/Icon_FLV.png'
@@ -954,14 +999,17 @@ def listItems(section=_default_section_, url='', startPage='1', numOfPages='1', 
 	deb('Length of HTML',str(len(html)))
 	######
 	if (len(html)==0): deb('Error','html is empty.'); return
-	s='<a\n*\s*href="(/'+ps('common_word')+'/[A-Za-z0-9\-/_]+)"\n*\s*title=\'(.*?)\'\n*\s*/*>\n*\s*(.+?)\s*\n*\s*</a>'
+	#s='<a\n*\s*href="(/'+ps('common_word')+'/[A-Za-z0-9\-/_]+)"\n*\s*title=\'(.*?)\'\n*\s*/*>\n*\s*(.+?)\s*\n*\s*</a>'
+	#s='<a\n*\s*href="(/'+ps('common_word')+'/[A-Za-z0-9\-/_]+)"\n*\s*title=\'(.*?)\'\n*\s*/*>\s*\n*\s*(.+?)\s*\n*\s*</a>\s*\n*\s*\n*\s*</td>\s*\n*\s*<td>\s*\n*\s*(.*?)\s*\n*\s*</td>\s*\n*\s*</tr>'
+	s='<a\n*\s*href="(/'+ps('common_word')+'/[A-Za-z0-9\-/_]+)"\n*\s*title=\'(.*?)\'\n*\s*/*>\s*\n*\s*(.+?)\s*\n*\s*</a>\s*\n*\s*\n*\s*(.*?)\s*\n*\s*\n*\s*</td>\s*\n*\s*<td>\s*\n*\s*(.+?)\s*\n*\s*</td>\s*\n*\s*</tr>'
 	iitems=re.compile(s, re.DOTALL).findall(html) ### , re.MULTILINE | re.IGNORECASE | re.DOTALL
 	if (iitems is not None):
 		ItemCount=len(iitems) # , total_items=ItemCount
 		deb('# of items',str(ItemCount))
 		EnableMeta=tfalse(addst("enableMeta"))
-		for item_url, tInfo, name in iitems:
-			contextMenuItems=[]; item_url=_domain_url+item_url; labs={}; 
+		#for item_url, tInfo, name in iitems:
+		for item_url, tInfo, name, imInfo, LInfo in iitems:
+			contextMenuItems=[]; item_url=_domain_url+item_url; labs={}; LInfo=LInfo.strip()
 			try: img=re.compile('"(http://.+?\.jpg)"').findall(tInfo)[0].replace(' ','%20')
 			except: img=_artIcon
 			fimg=''+img
@@ -969,8 +1017,14 @@ def listItems(section=_default_section_, url='', startPage='1', numOfPages='1', 
 				try: labs['plot']=re.compile('<p>\s*\n*\s*(.+?)\s*\n*\s*</p>').findall(tInfo)[0].strip()
 				except: labs['plot']=''
 			else: labs['plot']=''
+			if (LInfo=='Completed') or (LInfo=='Not yet aired'):
+				labs['plot']='['+cFL(LInfo,'lime')+'][CR]'+labs['plot']
+			#if ('<img' in imInfo): labs['plot']=imInfo.strip().replace(' style="vertical-align: middle"','').replace(' title="Just updated"','').replace(' title="Popular anime"','').replace(' />','>').replace('src="../','src="'+_domain_url+'/').replace('../','').replace('">','[/IMG]').replace('<img src="','[IMG]')+'[CR]'+labs['plot'] #.replace('>',']').replace('<img ','[IMG ')
 			#
-			if (EnableMeta==True):
+			#
+			#
+			if (tfalse(addst("Notyetaired"))==False) and (LInfo=='Not yet aired'): t=''
+			elif (EnableMeta==True):
 				animetype='tvshow'; animename=''+name
 				animename.replace(' (Dub)','').replace(' (Sub)','').replace(' (TV)','').replace(' OVA','').replace(' Movies','').replace(' Movie','').replace(' Specials','').replace(' New','')
 				##.replace('','')
@@ -1104,6 +1158,14 @@ def listItems(section=_default_section_, url='', startPage='1', numOfPages='1', 
 			labs['title']=name.replace(' (Dub)',' [COLOR green](Dub)[/COLOR]').replace(' (Sub)',' [COLOR blue](Sub)[/COLOR]').replace(' OVA',' [COLOR red]OVA[/COLOR]').replace(' Movie',' [COLOR maroon]Movie[/COLOR]').replace(': ',':[CR] ').replace(' New',' [COLOR yellow]New[/COLOR]').replace(' (TV)',' [COLOR cornflowerblue](TV)[/COLOR]').replace(' Specials',' [COLOR deeppink]Specials[/COLOR]') #.replace('','')
 			deb('title',labs['title']); deb('url',item_url); deb('img',img); deb('fanart',fimg)
 			#deb('plot',labs['plot']); 
+			if ('</a>' in LInfo):
+				deb('LInfo',LInfo)
+				(LatestUrl,LatestName)=re.compile('<a href="(/'+ps('common_word')+'/.+?)">\s*\n*\s*(.+?)\s*\n*\s*</a>').findall(LInfo)[0]
+				LatestUrl=_domain_url+LatestUrl
+				LatestPar={'url':LatestUrl,'mode':'GetLinks','img':img,'fanart':fimg,'title':labs['title'].replace('[CR]','')+' - '+LatestName}
+				contextMenuItems.append(('Latest:  '+LatestName,'XBMC.Container.Update(%s)' % _addon.build_plugin_url(LatestPar) ))
+				#pars={'mode':'GetLinks','img':img,'url':ep_url,'title':ep_name}
+				#contextMenuItems.append((ps('cMI.favorites.tv.add.name')+' '+addst('fav.movies.1.name'),ps('cMI.favorites.movie.add.url') % (sys.argv[0],ps('cMI.favorites.tv.add.mode'),section,urllib.quote_plus(name),'',urllib.quote_plus(img),urllib.quote_plus(fimg),urllib.quote_plus(''),urllib.quote_plus(labs['plot']),urllib.quote_plus(''),urllib.quote_plus(item_url), '' )))
 			##### Right Click Menu for: Anime #####
 			contextMenuItems.append((ps('cMI.showinfo.name'),ps('cMI.showinfo.url')))
 			contextMenuItems.append((ps('cMI.favorites.tv.add.name')+' '+addst('fav.movies.1.name'),ps('cMI.favorites.movie.add.url') % (sys.argv[0],ps('cMI.favorites.tv.add.mode'),section,urllib.quote_plus(name),'',urllib.quote_plus(img),urllib.quote_plus(fimg),urllib.quote_plus(''),urllib.quote_plus(labs['plot']),urllib.quote_plus(''),urllib.quote_plus(item_url), '' )))
@@ -1118,7 +1180,11 @@ def listItems(section=_default_section_, url='', startPage='1', numOfPages='1', 
 			##	contextMenuItems.append((ps('cMI.primewire.search.name'), 		ps('cMI.primewire.search.url') 	% (ps('cMI.primewire.search.plugin'), ps('cMI.primewire.search.section'), name)))
 			##### Right Click Menu for: Anime ##### /\ #####
 			pars={'mode':'GetEpisodes','url':item_url,'img':img,'title':labs['title']}
-			_addon.add_directory(pars, labs, img=img, fanart=fimg, contextmenu_items=contextMenuItems, total_items=ItemCount)
+			#deb('LInfo',LInfo)
+			if (tfalse(addst("Notyetaired"))==False) and (LInfo=='Not yet aired'): deb(LInfo,name)
+			else: _addon.add_directory(pars, labs, img=img, fanart=fimg, contextmenu_items=contextMenuItems, total_items=ItemCount)
+			#if (tfalse(addst("Notyetaired"))==True) or (LInfo is not 'Not yet aired'):
+			#	_addon.add_directory(pars, labs, img=img, fanart=fimg, contextmenu_items=contextMenuItems, total_items=ItemCount)
 	else: deb('Error','no items found.')
 	set_view(ps('content_tvshows'),addst('anime-view')); eod(); return
 	################################################################################
@@ -1161,7 +1227,10 @@ def listEpisodes(section, url, img='', showtitle='', season=''): #_param['img']
 		labs['premiered']=ep_date.replace('/','-')
 		deb('Episode Name',labs['title']); deb('episode thumbnail',img)
 		pars={'mode':'GetLinks','img':img,'url':ep_url,'title':ep_name}
-		_addon.add_directory(pars,labs,img=img,fanart=img,contextmenu_items=contextMenuItems,total_items=ItemCount)
+		if (tfalse(addst("enable-autoplay"))==True):
+			_addon.add_directory(pars,labs,img=img,fanart=img,is_folder=False,contextmenu_items=contextMenuItems,total_items=ItemCount)
+		else:
+			_addon.add_directory(pars,labs,img=img,fanart=img,is_folder=True,contextmenu_items=contextMenuItems,total_items=ItemCount)
 		#
 	set_view(ps('content_episodes'),addst('episode-view')); eod() #set_view('episodes',ps('setview.episodes')); eod()
 
@@ -1417,6 +1486,7 @@ def doSearchNormal (section,title=''):
 		title=showkeyboard(txtMessage=title,txtHeader="Title:  ("+section+")")
 		if (title=='') or (title=='none') or (title==None) or (title==False): return
 	title=title.replace(' ','+')
+	#title=title.replace(' ','%20')
 	_param['url']=SearchPrefix % title; deb('Searching for',_param['url']); listItems(section, _param['url'], _param['pageno'], addst('pages'), _param['genre'], _param['year'], _param['title'])
 
 def doSearchAdvanced (section,title=''):

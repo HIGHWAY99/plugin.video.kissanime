@@ -35,6 +35,7 @@
 		<setting visible="true" id="download_folder_wallpapers" 	type="folder" label="Download Folder (Wallpapers)  "  default="" />
 	</category>
 	<category label="Anime">
+		<setting id="Notyetaired" type="bool" label="Show listings marked: Not yet aired" default="true" visible="true"/>
 		<setting visible="true" type="text" default=""  id="fav.movies.1.name" label="Favorites 1: Name" />
 		<setting visible="true" id="enable-fav-movies-2" type="bool" label="Enable Favorites 2" default="true" />
 		<setting visible="true" type="text" default="2" id="fav.movies.2.name" label="Favorites 2: Name" enable="!eq(-1,false)" />
