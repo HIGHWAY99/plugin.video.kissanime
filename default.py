@@ -2,7 +2,7 @@
 ###	#	
 ### # Project: 			#		KissAnime.com - by The Highway 2013.
 ### # Author: 			#		The Highway
-### # Version:			#		v0.3.5
+### # Version:			#		v0.3.6
 ### # Description: 	#		http://www.KissAnime.com
 ###	#	
 ### ############################################################################################################
@@ -1190,7 +1190,12 @@ def listItems(section=_default_section_, url='', startPage='1', numOfPages='1', 
 	################################################################################
 
 def listEpisodes(section, url, img='', showtitle='', season=''): #_param['img']
-	xbmcplugin.setContent( int( sys.argv[1] ), 'episodes' ); WhereAmI('@ the Episodes List for TV Show -- url: %s' % url); html=net.http_GET(url).content
+	xbmcplugin.setContent( int( sys.argv[1] ), 'episodes' ); WhereAmI('@ the Episodes List for TV Show -- url: %s' % url); 
+	#try: html=net.http_GET(url).content
+	try: html=nURL(url,headers={'Referer':_domain_url})
+	except: html=''
+	try: t=nURL(_domain_url+'/Ads720x90',headers={'Referer':url})
+	except: pass
 	_addon.addon.setSetting(id="LastShowListedURL", value=url)
 	_addon.addon.setSetting(id="LastShowListedIMG", value=img)
 	_addon.addon.setSetting(id="LastShowListedNAME", value=showtitle)
