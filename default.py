@@ -2,7 +2,7 @@
 ###	#	
 ### # Project: 			#		KissAnime.com - by The Highway 2013.
 ### # Author: 			#		The Highway
-### # Version:			#		v0.3.4
+### # Version:			#		v0.3.5
 ### # Description: 	#		http://www.KissAnime.com
 ###	#	
 ### ############################################################################################################
@@ -155,7 +155,7 @@ def PlayVideo(url,title='',studio='',img='',showtitle='',plot='',autoplay=False)
 	#except: html=''
 	#xbmc.getIPAddress()
 	#MyIP=xbmc.getIPAddress()
-	MyIP="199.0.197.160"
+	#MyIP=""
 	#MyIP="0.0.0.0"
 	#deb('my ip',xbmc.getIPAddress())
 	url2=url
