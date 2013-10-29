@@ -2,7 +2,7 @@
 ###	#	
 ### # Project: 			#		KissAnime.com - by The Highway 2013.
 ### # Author: 			#		The Highway
-### # Version:			#		v0.3.6
+### # Version:			#		v0.3.7
 ### # Description: 	#		http://www.KissAnime.com
 ###	#	
 ### ############################################################################################################
@@ -576,8 +576,9 @@ def mdGetSplitFindGroup(html,ifTag='', parseTag='',startTag='',endTag=''):
 def listLinks(section, url, showtitle='', showyear=''): ### Menu for Listing Hosters (Host Sites of the actual Videos)
 	WhereAmI('@ the Link List: %s' % url); sources=[]; listitem=xbmcgui.ListItem()
 	if (url==''): return
+	cookie_file=xbmc.translatePath(os.path.join(_addonPath,'temp.cache.txt'))
 	#try: html=nURL(url)
-	try: html=nURL(url,headers={'Referer':_domain_url})
+	try: html=nURL(url,headers={'Referer':_domain_url},cookie_file=cookie_file,load_cookie=True)
 	#try: html=net.http_GET(url).content
 	except: html=''
 	deb('length of html',str(len(html)))
@@ -1192,16 +1193,53 @@ def listItems(section=_default_section_, url='', startPage='1', numOfPages='1', 
 def listEpisodes(section, url, img='', showtitle='', season=''): #_param['img']
 	xbmcplugin.setContent( int( sys.argv[1] ), 'episodes' ); WhereAmI('@ the Episodes List for TV Show -- url: %s' % url); 
 	#try: html=net.http_GET(url).content
-	try: html=nURL(url,headers={'Referer':_domain_url})
+	cookie_file=xbmc.translatePath(os.path.join(_addonPath,'temp.cache.txt'))
+	try: 
+		if isFile(cookie_file)==True: html=nURL(url,headers={'Referer':_domain_url},cookie_file=cookie_file,load_cookie=True,save_cookie=True)
+		else: html=nURL(url,headers={'Referer':_domain_url},cookie_file=cookie_file,save_cookie=True)
 	except: html=''
-	try: t=nURL(_domain_url+'/Ads720x90',headers={'Referer':url})
-	except: pass
 	_addon.addon.setSetting(id="LastShowListedURL", value=url)
 	_addon.addon.setSetting(id="LastShowListedIMG", value=img)
 	_addon.addon.setSetting(id="LastShowListedNAME", value=showtitle)
 	metadata_tv_episodes=tfalse(addst("metadata_tv_episodes")); metadata_tv_ep_plot=tfalse(addst("metadata_tv_ep_plot"))
 	if (html=='') or (html=='none') or (html==None): deb('Html','is empty.' ); return
 	html=messupText(html,_html=True,_ende=True,_a=False,Slashes=False)
+	#
+	try: ## 
+		aLINKd=re.compile('<iframe .*?src="(.*?a'+'d'+'s.*?)"').findall(html)[0]; deb('aLINKd',aLINKd); 
+		if _domain_url not in aLINKd: aLINKd=_domain_url+aLINKd
+		t1a=nURL(aLINKd,headers={'Referer':url},cookie_file=cookie_file,load_cookie=True,save_cookie=True)
+	except: deadNote('KissAnime','#1.) Failed to Locate A'+'d'+' Checker url for Video Usage.'); eod(); return
+	###
+	##try: ## 
+	#aLINKd11a=re.compile('<script .*?src="(.+?)"').findall(t1a)[0]; deb('aLINKd11a',aLINKd11a); 
+	##if _domain_url not in aLINKd11a: aLINKd=_domain_url+aLINKd
+	#t1=nURL(aLINKd11a,headers={'Referer':aLINKd},cookie_file=cookie_file,load_cookie=True,save_cookie=True)
+	#debob(t1)
+	##except: deadNote('KissAnime','#2.) Failed to Locate A'+'d'+' Checker url for Video Usage.'); eod(); return
+	###
+	#aLINKd1a=re.compile("var rp_account='(\d+)'").findall(t1)[0]; deb('aLINKd1a',aLINKd1a); 
+	#aLINKd1b=re.compile("var rp_site='(\d+)'").findall(t1)[0]; deb('aLINKd1b',aLINKd1b); 
+	#aLINKd1c=re.compile("var rp_zonesize='(\d+)-\d+'").findall(t1)[0]; deb('aLINKd1c',aLINKd1c); 
+	#aLINKd1L='http://tap-cdn.rubiconproject.com/partner/scripts/rubicon/alice.js?pc='+aLINKd1a+'/'+aLINKd1b+'&ptc='+aLINKd1c+''; deb('aLINKd1L',aLINKd1L); 
+	#t1b=nURL(aLINKd1L,headers={'Referer':aLINKd},cookie_file=cookie_file,load_cookie=True,save_cookie=True)
+	##except: deadNote('KissAnime','#1.) Failed to Locate A'+'d'+' Checker url for Video Usage.'); eod(); return
+	### 
+	#try: ## /x##x## Hex Code
+	aLINKd2=re.compile('<script type="text/javascript">\s*\n*\s*var.*?,url:"(/.+?)"').findall(html)[0]; deb('aLINKd2',aLINKd2); 
+	#if _domain_url not in aLINKd2: aLINKd2=_domain_url+aLINKd2
+	t2=nURL(aLINKd2,method='post',form_data={},headers={'Referer':url},cookie_file=cookie_file,load_cookie=True,save_cookie=True)
+	#except: deadNote('KissAnime','#3.) Failed to Locate A'+'d'+' Checker url for Video Usage.'); eod(); return
+	###
+	#dw.write('src="http://ads-by.madadsmedia.com/tags/' + pb728x90 + '">'); 
+	#
+	#
+	#
+	#
+	#try: t=nURL(aLINKd,headers={'Referer':url})
+	#try: t=nURL(_domain_url+'/A'+'d'+'s'+'720x90',headers={'Referer':url})
+	#except: pass
+	###
 	#if (img==''): match=re.search( 'coverImage">.+?src="(.+?)"', html, re.IGNORECASE | re.MULTILINE | re.DOTALL); img=match.group(1)
 	if (img==''): img=_artIcon
 	s='<tr>\s*\n*\s*<td>\s*\n*\s*<a\s*\n*\s*href="(/'+ps('common_word')+'/.+?\?id=[0-9]+)"\s*\n*\s*title="'+ps('common_word2')+' .+?"\s*\n*\s*>\s*\n*\s*(.+?)\s*\n*\s*</a>\s*\n*\s*</td>\s*\n*\s*<td>\s*\n*\s*([0-9/]*)\s*\n*\s*</td>'
