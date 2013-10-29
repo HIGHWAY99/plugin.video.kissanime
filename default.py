@@ -1225,11 +1225,11 @@ def listEpisodes(section, url, img='', showtitle='', season=''): #_param['img']
 	#t1b=nURL(aLINKd1L,headers={'Referer':aLINKd},cookie_file=cookie_file,load_cookie=True,save_cookie=True)
 	##except: deadNote('KissAnime','#1.) Failed to Locate A'+'d'+' Checker url for Video Usage.'); eod(); return
 	### 
-	#try: ## /x##x## Hex Code
-	aLINKd2=re.compile('<script type="text/javascript">\s*\n*\s*var.*?,url:"(/.+?)"').findall(html)[0]; deb('aLINKd2',aLINKd2); 
-	#if _domain_url not in aLINKd2: aLINKd2=_domain_url+aLINKd2
-	t2=nURL(aLINKd2,method='post',form_data={},headers={'Referer':url},cookie_file=cookie_file,load_cookie=True,save_cookie=True)
-	#except: deadNote('KissAnime','#3.) Failed to Locate A'+'d'+' Checker url for Video Usage.'); eod(); return
+	try: ## /x##x## Hex Code
+		aLINKd2=re.compile('<script type="text/javascript">\s*\n*\s*var.*?,url:"(/.+?)"').findall(html)[0]; deb('aLINKd2',aLINKd2); 
+		if _domain_url not in aLINKd2: aLINKd2=_domain_url+aLINKd2
+		t2=nURL(aLINKd2,method='post',form_data={},headers={'Referer':url},cookie_file=cookie_file,load_cookie=True,save_cookie=True)
+	except: deadNote('KissAnime','#3.) Failed to Locate A'+'d'+' Checker url for Video Usage.'); eod(); return
 	###
 	#dw.write('src="http://ads-by.madadsmedia.com/tags/' + pb728x90 + '">'); 
 	#
